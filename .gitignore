@@ -35,3 +35,10 @@ __pycache__/
 
 # Claude Code local preview/dev-server config
 .claude/launch.json
+
+# Node / Astro site
+site/node_modules
+site/dist
+site/.astro
+site/test-results
+site/playwright-report

@@ -1,0 +1,48 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+---
+
+<BaseLayout title="Privacy Policy" description="OpenCAD Web privacy policy — local-first, no tracking, minimal data.">
+  <h1>Privacy Policy</h1>
+  <p class="muted">Last updated: {new Date().toISOString().slice(0, 10)}</p>
+
+  <h2>Your drawings stay on your device</h2>
+  <p>
+    OpenCAD Web is a local-first application. The CAD engine runs entirely in your browser
+    via WebAssembly. The DWG/DXF files you open are parsed on your machine and stored in
+    your browser's IndexedDB storage. We have no servers that receive your drawings.
+    There is no cloud, no upload, and no account system.
+  </p>
+
+  <h2>What we do collect</h2>
+  <p>We run <strong>Cloudflare Web Analytics</strong>, a privacy-friendly, cookieless analytics
+  service that reports aggregate page views and rough geography. It does not identify individual
+  visitors and requires no consent banner.</p>
+
+  <h2>Advertising</h2>
+  <p>
+    This site displays advertisements served by <strong>Google AdSense</strong>. AdSense uses
+    cookies or similar technologies to serve ads based on your prior visits to this and other
+    websites. Google's use of advertising cookies is described in
+    <a href="https://policies.google.com/technologies/ads" target="_blank" rel="noopener">Google's
+    Advertising page</a>. You can opt out of personalized advertising at
+    <a href="https://www.google.com/settings/ads" target="_blank" rel="noopener">Google Ads
+    Settings</a>. AdSense may collect information such as device type, approximate location, and
+    pages visited to decide which ads to show. No ad is ever displayed over the CAD canvas.
+  </p>
+
+  <h2>Cookies</h2>
+  <p>
+    AdSense may place cookies to serve and measure ads. We do not use cookies for our own
+    tracking. You can block or delete cookies in your browser settings.
+  </p>
+
+  <h2>Third-party links</h2>
+  <p>
+    The app and site link to external services (GitHub for source code, YouTube for tutorials).
+    Those services have their own privacy policies.
+  </p>
+
+  <h2>Contact</h2>
+  <p>Questions about this policy? See the <a href="/contact/">contact page</a>.</p>
+</BaseLayout>

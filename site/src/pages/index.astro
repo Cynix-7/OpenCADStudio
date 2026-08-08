@@ -1,0 +1,57 @@
+---
+// Landing page — hero, features, CTA to /app/. SEO + AdSense content surface.
+import BaseLayout from "../layouts/BaseLayout.astro";
+import AdSlot from "../components/AdSlot.astro";
+
+const features = [
+  { icon: "📐", title: "Full 2D CAD", desc: "Lines, polylines, circles, arcs, constraints, dimensions — a real drafting workbench, not a viewer." },
+  { icon: "📁", title: "DWG & DXF native", desc: "Open and save DWG (R13–R2018) and DXF files. Your drawings, your formats." },
+  { icon: "⚡", title: "GPU-accelerated", desc: "WebGPU rendering with WebGL2 fallback. Pan and zoom large drawings without lag." },
+  { icon: "🔒", title: "Local-first & private", desc: "Files never leave your device. Saved in your browser's storage — no account, no upload." },
+  { icon: "🖥️", title: "Runs anywhere", desc: "Chromebooks, laptops, tablets, desktops. No install, no license, no signup." },
+  { icon: "🧩", title: "Open source", desc: "GPL-3.0. Fork it, audit it, contribute. The source is on GitHub." },
+];
+---
+
+<BaseLayout
+  title="Free Browser CAD — DWG/DXF Editor, No Install"
+  description="Open, edit, and export DWG and DXF files free in your browser. GPU-accelerated 2D CAD with no signup, no install, no accounts. Open source (GPL-3.0)."
+>
+  <section style="text-align:center; padding: 3rem 0 1rem;">
+    <h1>Professional CAD.<br />In your browser. <span style="color:var(--accent)">Free.</span></h1>
+    <p class="muted" style="font-size:1.15rem; max-width:640px; margin:0 auto;">
+      Open, edit, and export DWG/DXF files instantly — no install, no signup, no license fees.
+      Built with Rust and WebAssembly, rendered on your GPU.
+    </p>
+    <div style="display:flex; gap:1rem; justify-content:center; margin-top:2rem; flex-wrap:wrap;">
+      <a class="btn" href="/app/">Start Drawing — it's free</a>
+      <a class="btn ghost" href="/blog/">Read the blog</a>
+    </div>
+    <p class="muted" style="font-size:0.85rem; margin-top:1rem;">
+      No account required · Works offline · Open source (GPL-3.0)
+    </p>
+  </section>
+
+  <AdSlot format="leaderboard" />
+
+  <section>
+    <h2 style="text-align:center;">Everything you need to draft</h2>
+    <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:1.25rem; margin-top:1.5rem;">
+      {
+        features.map((f) => (
+          <div style="background:var(--chrome); border:1px solid var(--border); border-radius:12px; padding:1.5rem;">
+            <div style="font-size:1.75rem;">{f.icon}</div>
+            <h3 style="margin:0.75rem 0 0.25rem;">{f.title}</h3>
+            <p class="muted" style="margin:0; font-size:0.95rem;">{f.desc}</p>
+          </div>
+        ))
+      }
+    </div>
+  </section>
+
+  <section style="margin-top:3rem; background:var(--chrome); border:1px solid var(--border); border-radius:12px; padding:2rem; text-align:center;">
+    <h2>Why wait? Your next drawing is one click away.</h2>
+    <p class="muted">No download. No installer. No "trial expired" popups. Just open the app and draw.</p>
+    <a class="btn" href="/app/" style="margin-top:0.75rem;">Open OpenCAD Web</a>
+  </section>
+</BaseLayout>

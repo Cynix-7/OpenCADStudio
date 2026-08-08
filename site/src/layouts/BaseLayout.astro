@@ -1,0 +1,149 @@
+---
+// BaseLayout.astro — shared chrome for all content pages.
+// Dark theme per UI brief: bg #16161c, chrome #1f1f27, accent cyan #00b8d4.
+interface Props {
+  title: string;
+  description: string;
+}
+const { title, description } = Astro.props;
+const SITE = "OpenCAD Web";
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{title} — {SITE}</title>
+    <meta name="description" content={description} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    <meta name="theme-color" content="#16161c" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="canonical" href={`https://opencad.app${Astro.url.pathname}`} />
+    <style is:global>
+      :root {
+        --bg: #16161c;
+        --chrome: #1f1f27;
+        --border: #2e2e3a;
+        --text: #e8e8ee;
+        --muted: #9a9aa6;
+        --accent: #00b8d4;
+        --accent-dim: #00839a;
+      }
+      * { box-sizing: border-box; }
+      html, body { margin: 0; padding: 0; }
+      body {
+        background: var(--bg);
+        color: var(--text);
+        font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+        line-height: 1.6;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+      }
+      a { color: var(--accent); text-decoration: none; }
+      a:hover { text-decoration: underline; }
+      header.site {
+        background: var(--chrome);
+        border-bottom: 1px solid var(--border);
+        padding: 0.75rem 1.5rem;
+        display: flex;
+        align-items: center;
+        gap: 1.5rem;
+        position: sticky;
+        top: 0;
+        z-index: 50;
+      }
+      header.site .logo { font-weight: 700; font-size: 1.1rem; color: var(--text); }
+      header.site .logo span { color: var(--accent); }
+      header.site nav { display: flex; gap: 1.25rem; margin-left: auto; }
+      header.site nav a { color: var(--muted); font-size: 0.95rem; }
+      header.site nav a:hover { color: var(--text); }
+      main { flex: 1; width: 100%; max-width: 1100px; margin: 0 auto; padding: 2rem 1.5rem; }
+      footer.site {
+        background: var(--chrome);
+        border-top: 1px solid var(--border);
+        padding: 1rem 1.5rem;
+        font-size: 0.85rem;
+        color: var(--muted);
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1rem;
+        justify-content: space-between;
+      }
+      footer.site a { color: var(--muted); }
+      footer.site a:hover { color: var(--text); }
+      h1 { font-size: 2.2rem; line-height: 1.2; margin: 0 0 1rem; }
+      h2 { font-size: 1.5rem; margin: 2rem 0 0.75rem; }
+      h3 { font-size: 1.15rem; margin: 1.5rem 0 0.5rem; }
+      p { margin: 0.75rem 0; }
+      .muted { color: var(--muted); }
+      .btn {
+        display: inline-block;
+        background: var(--accent);
+        color: #06121a;
+        font-weight: 700;
+        padding: 0.75rem 1.5rem;
+        border-radius: 8px;
+        text-decoration: none;
+        transition: background 0.15s ease;
+      }
+      .btn:hover { background: #33d2ea; text-decoration: none; }
+      .btn.ghost {
+        background: transparent;
+        color: var(--text);
+        border: 1px solid var(--border);
+      }
+      .btn.ghost:hover { border-color: var(--accent); color: var(--accent); }
+      code, pre {
+        font-family: ui-monospace, "Cascadia Mono", Menlo, monospace;
+      }
+      pre {
+        background: #101015;
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        padding: 1rem;
+        overflow-x: auto;
+      }
+      img { max-width: 100%; border-radius: 8px; }
+      .ad-slot {
+        min-height: 90px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: var(--chrome);
+        border: 1px dashed var(--border);
+        border-radius: 8px;
+        color: var(--muted);
+        font-size: 0.8rem;
+        margin: 1.5rem 0;
+        overflow: hidden;
+      }
+      .ad-slot ins { display: block; width: 100%; height: 100%; }
+    </style>
+  </head>
+  <body>
+    <header class="site">
+      <a class="logo" href="/">Open<span>CAD</span> Web</a>
+      <nav>
+        <a href="/">Home</a>
+        <a href="/app/">Open App</a>
+        <a href="/blog/">Blog</a>
+        <a href="/about/">About</a>
+        <a href="/contact/">Contact</a>
+      </nav>
+    </header>
+    <main>
+      <slot />
+    </main>
+    <footer class="site">
+      <div>© {new Date().getFullYear()} OpenCAD Web — free browser CAD, DWG/DXF, no install.</div>
+      <div>
+        <a href="/privacy/">Privacy</a> · <a href="/about/#license">GPL-3.0</a> ·
+        <a href="https://github.com/Cynix-7/OpenCADStudio" target="_blank" rel="noopener">Source on GitHub</a>
+      </div>
+    </footer>
+  </body>
+</html>

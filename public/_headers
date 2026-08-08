@@ -1,0 +1,18 @@
+# Cloudflare Pages headers — cross-origin isolation for the WASM app only.
+# /studio/* is the app's own document: COOP/COEP enables SharedArrayBuffer,
+# which wasm threads (rayon) need for the multi-threaded parse path.
+# The /app/ host page and the content site intentionally do NOT set COEP,
+# so third-party ad scripts (AdSense) load normally there.
+/studio/*
+  Cross-Origin-Opener-Policy: same-origin
+  Cross-Origin-Embedder-Policy: require-corp
+
+# Security baseline for the whole site.
+/*
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: camera=(), microphone=(), geolocation=()
+
+# WASM must be served with the correct MIME type.
+/studio/*.wasm
+  Content-Type: application/wasm

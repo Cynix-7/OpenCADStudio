@@ -1,0 +1,49 @@
+---
+// /app/ — host page: ad chrome + iframe to the isolated WASM app at /studio/.
+// The app runs in an iframe so ads can never overlap the canvas, and COOP/COEP
+// isolation applies only to /studio/* (ad scripts on this page stay compatible).
+import BaseLayout from "../layouts/BaseLayout.astro";
+import AdSlot from "../components/AdSlot.astro";
+---
+
+<BaseLayout
+  title="OpenCAD Web — Free Browser CAD App"
+  description="Open, edit, and export DWG and DXF files free in your browser. No install, no signup, GPU-accelerated CAD app."
+>
+  <style>
+    .app-stage {
+      width: 100%;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+    .app-frame {
+      width: 100%;
+      height: calc(100vh - 210px);
+      min-height: 560px;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      background: #1e1e1e;
+      display: block;
+    }
+  </style>
+
+  <h1 style="font-size:1.5rem; text-align:center;">OpenCAD Web — Free Browser CAD</h1>
+  <p class="muted" style="text-align:center; margin-top:-0.5rem;">
+    DWG/DXF editor in your browser. Your files never leave your device.
+  </p>
+
+  <div class="app-stage">
+    <AdSlot format="leaderboard" />
+    <iframe
+      class="app-frame"
+      src="/studio/"
+      title="OpenCAD Web CAD app"
+      allow="fullscreen; clipboard-write"
+      loading="eager"
+    ></iframe>
+    <AdSlot format="leaderboard" />
+    <p class="muted" style="text-align:center; font-size:0.8rem; margin-top:0.75rem;">
+      No account · No upload · Open source (GPL-3.0) · Keyboard: L=line, C=circle, R=rect, Ctrl+S=save, Ctrl+E=export
+    </p>
+  </div>
+</BaseLayout>

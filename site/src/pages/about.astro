@@ -1,0 +1,53 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+---
+
+<BaseLayout title="About & License" description="About OpenCAD Web — open source browser CAD built on OpenCADStudio, GPL-3.0 licensed.">
+  <h1>About OpenCAD Web</h1>
+  <p>
+    OpenCAD Web is a free, browser-based CAD application for 2D drafting and 3D modeling.
+    It is built on <a href="https://github.com/HakanSeven12/OpenCADStudio" target="_blank" rel="noopener">OpenCADStudio</a>,
+    an open-source CAD application written in Rust, compiled to WebAssembly so it runs entirely
+    in your browser with GPU acceleration (WebGPU, with WebGL2 fallback).
+  </p>
+
+  <h2>Why we exist</h2>
+  <p>
+    Professional CAD tools cost hundreds per year or force you into accounts, trials, and
+    proprietary clouds. We believe drafting should be free, private, and zero-friction:
+    open a URL, draw, export a DWG — done. No install, no signup, no license server.
+  </p>
+  <p>
+    The site is funded by non-intrusive advertising. That's the whole business model:
+    all features are free, ads never cover your drawing, and your files never leave your device.
+  </p>
+
+  <h2>Technology</h2>
+  <ul>
+    <li><strong>Engine:</strong> OpenCADStudio (Rust) — DWG/DXF read/write (R13–R2018), STL/STEP/OBJ/PDF export</li>
+    <li><strong>UI:</strong> iced (Rust GUI framework)</li>
+    <li><strong>Rendering:</strong> wgpu — WebGPU with WebGL2 fallback, 4× MSAA</li>
+    <li><strong>Web packaging:</strong> Trunk + wasm-bindgen + WebAssembly</li>
+  </ul>
+
+  <h2 id="license">License</h2>
+  <p>
+    OpenCAD Web is free software: you can redistribute it and/or modify it under the terms of the
+    <strong>GNU General Public License version 3</strong> (GPL-3.0). This is inherited from the
+    upstream OpenCADStudio project.
+  </p>
+  <p>
+    <a href="https://www.gnu.org/licenses/gpl-3.0.html" target="_blank" rel="noopener">Read the full GPL-3.0 license</a> ·
+    <a href="https://github.com/Cynix-7/OpenCADStudio" target="_blank" rel="noopener">Source code on GitHub</a>
+  </p>
+  <p class="muted" style="font-size:0.9rem;">
+    You are free to use this software for any purpose, modify it, and share it — provided
+    any distributed modifications are also licensed under GPL-3.0 and source is made available.
+  </p>
+
+  <h2>Acknowledgements</h2>
+  <p>
+    Thanks to the OpenCADStudio project and its contributors, the Rust ecosystem (iced, wgpu,
+    acadifc), and the open-source community that makes free CAD possible.
+  </p>
+</BaseLayout>

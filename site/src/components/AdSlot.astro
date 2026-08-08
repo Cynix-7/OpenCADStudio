@@ -1,0 +1,53 @@
+---
+// AdSlot.astro — CLS-safe ad placement.
+// Renders a fixed min-height placeholder; AdSense <ins> fills it once the
+// account is approved. When ads are blocked or the unit id is empty, the
+// placeholder collapses to zero height (no layout shift, no broken layout).
+interface Props {
+  slot?: string; // AdSense slot id, e.g. "1234567890"
+  client?: string; // AdSense client id, e.g. "ca-pub-1234567890"
+  format?: "leaderboard" | "inarticle" | "responsive";
+}
+const { slot = "", client = "", format = "leaderboard" } = Astro.props;
+const enabled = slot !== "" && client !== "";
+const minHeight = format === "leaderboard" ? "90px" : format === "inarticle" ? "250px" : "90px";
+---
+
+<div
+  class:list={["ad-slot", format]}
+  style={`min-height: ${minHeight};`}
+  data-ad-enabled={enabled}
+>
+  {enabled ? (
+    <ins
+      class="adsbygoogle"
+      style="display:block"
+      data-ad-client={client}
+      data-ad-slot={slot}
+      data-ad-format={format === "leaderboard" ? "horizontal" : "auto"}
+      data-full-width-responsive="true"
+    />
+  ) : (
+    <span class="muted">Advertisement</span>
+  )}
+</div>
+
+<script is:inline>
+  // Load AdSense once when slots are enabled and no consent wall is required.
+  (() => {
+    const slots = document.querySelectorAll(".ad-slot[data-ad-enabled='true'] .adsbygoogle");
+    if (slots.length === 0) return;
+    if (window.__OCS_ADS_LOADED__) return;
+    window.__OCS_ADS_LOADED__ = true;
+    const s = document.createElement("script");
+    s.async = true;
+    s.crossOrigin = "anonymous";
+    const client = slots[0].getAttribute("data-ad-client");
+    s.src = `https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${client}`;
+    document.head.appendChild(s);
+  })();
+</script>
+
+<style>
+  .ad-slot.inarticle { min-height: 250px; }
+</style>

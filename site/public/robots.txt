@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+
+# The WASM app is indexable — it's the main product surface.
+Allow: /app/
+
+Sitemap: https://opencad.app/sitemap.xml
