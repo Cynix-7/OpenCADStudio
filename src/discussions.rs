@@ -7,11 +7,11 @@
 //! GitHub's authenticated GraphQL API.
 
 pub const DISCUSSIONS_URL: &str =
-    "https://github.com/HakanSeven12/OpenCADStudio/discussions";
+    "https://github.com/Cynix-7/OpenCADStudio/discussions";
 
 #[cfg(not(target_arch = "wasm32"))]
 const FEED_URL: &str =
-    "https://github.com/HakanSeven12/OpenCADStudio/discussions.atom";
+    "https://github.com/Cynix-7/OpenCADStudio/discussions.atom";
 
 #[derive(Clone, Debug, serde::Serialize, serde::Deserialize)]
 pub struct DiscussionEntry {
@@ -109,7 +109,7 @@ fn parse_atom(feed: &str) -> Vec<DiscussionEntry> {
         .filter_map(|tail| {
             let entry = tail.split_once("</entry>")?.0;
             let url_start = entry.find(
-                "href=\"https://github.com/HakanSeven12/OpenCADStudio/discussions/",
+                "href=\"https://github.com/Cynix-7/OpenCADStudio/discussions/",
             )? + "href=\"".len();
             let url_tail = &entry[url_start..];
             let url = url_tail.split_once('"')?.0.to_string();
@@ -162,7 +162,7 @@ fn pinned_numbers(page: &str) -> std::collections::HashSet<u64> {
         .split_once("</ul>")
         .map(|(section, _)| section)
         .unwrap_or(after_heading);
-    let marker = "/HakanSeven12/OpenCADStudio/discussions/";
+    let marker = "/Cynix-7/OpenCADStudio/discussions/";
     let mut rest = section;
     while let Some(pos) = rest.find(marker) {
         let tail = &rest[pos + marker.len()..];
@@ -208,13 +208,13 @@ mod tests {
     fn pinned_discussions_are_sorted_first() {
         let feed = r#"
             <entry>
-              <link type="text/html" rel="alternate" href="https://github.com/HakanSeven12/OpenCADStudio/discussions/2"/>
+              <link type="text/html" rel="alternate" href="https://github.com/Cynix-7/OpenCADStudio/discussions/2"/>
               <title>New &amp; recent</title>
               <updated>2026-07-28T10:00:00+00:00</updated>
               <author><name>alice</name></author>
             </entry>
             <entry>
-              <link type="text/html" rel="alternate" href="https://github.com/HakanSeven12/OpenCADStudio/discussions/1"/>
+              <link type="text/html" rel="alternate" href="https://github.com/Cynix-7/OpenCADStudio/discussions/1"/>
               <title>Pinned</title>
               <updated>2026-07-20T10:00:00+00:00</updated>
               <author><name>bob</name></author>
@@ -222,7 +222,7 @@ mod tests {
         "#;
         let page = r#"
           <h2 id="pinned-discussions">Pinned Discussions</h2>
-          <ul><a href="/HakanSeven12/OpenCADStudio/discussions/1">Pinned</a></ul>
+          <ul><a href="/Cynix-7/OpenCADStudio/discussions/1">Pinned</a></ul>
         "#;
         let pinned = pinned_numbers(page);
         let mut entries = parse_atom(feed);

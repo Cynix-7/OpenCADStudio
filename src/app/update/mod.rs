@@ -1246,11 +1246,11 @@ impl OpenCADStudio {
             }
 
             Message::RibbonToolClick { tool_id, event } => {
-                if self.tabs[self.active_tab].is_start {
-                    Task::none()
-                } else {
-                    self.on_ribbon_tool_click(tool_id, event)
-                }
+                // No blanket is_start short-circuit here: on_ribbon_tool_click
+                // owns the start-page policy (commands pass through so the
+                // welcome page's own buttons work; scene-touching tools get
+                // the "No drawing open" feedback — #299, #388, #389).
+                self.on_ribbon_tool_click(tool_id, event)
             }
             Message::PluginFileDialogResult { command, path } => {
                 if let Some(path) = path {

@@ -33,18 +33,31 @@ const minHeight = format === "leaderboard" ? "90px" : format === "inarticle" ? "
 </div>
 
 <script is:inline>
-  // Load AdSense once when slots are enabled and no consent wall is required.
+  // Load AdSense once when slots are enabled, then push each ad unit to
+  // render it. The standard AdSense pattern is: load adsbygoogle.js once,
+  // then call (adsbygoogle = window.adsbygoogle || []).push({}) once per
+  // <ins class="adsbygoogle"> element — without the push, no ad renders.
   (() => {
     const slots = document.querySelectorAll(".ad-slot[data-ad-enabled='true'] .adsbygoogle");
     if (slots.length === 0) return;
-    if (window.__OCS_ADS_LOADED__) return;
-    window.__OCS_ADS_LOADED__ = true;
-    const s = document.createElement("script");
-    s.async = true;
-    s.crossOrigin = "anonymous";
     const client = slots[0].getAttribute("data-ad-client");
-    s.src = `https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${client}`;
-    document.head.appendChild(s);
+    if (!client) return;
+    if (!window.__OCS_ADS_LOADED__) {
+      window.__OCS_ADS_LOADED__ = true;
+      const s = document.createElement("script");
+      s.async = true;
+      // NOTE: no crossOrigin attribute — AdSense's adsbygoogle.js is not
+      // served with CORS headers; setting crossOrigin would block it.
+      s.src = `https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${client}`;
+      document.head.appendChild(s);
+    }
+    for (const slot of slots) {
+      try {
+        (window.adsbygoogle = window.adsbygoogle || []).push({});
+      } catch (_) {
+        // Ad blocked / consent not granted — the slot keeps its placeholder.
+      }
+    }
   })();
 </script>
 

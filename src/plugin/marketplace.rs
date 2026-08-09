@@ -17,7 +17,7 @@ use super::external::{RegistryEntry, ReleaseInfo};
 
 /// The curated registry, read from the OpenCADStudio repo's `main` branch.
 pub(crate) const REGISTRY_URL: &str =
-    "https://raw.githubusercontent.com/HakanSeven12/OpenCADStudio/main/plugins/registry.json";
+    "https://raw.githubusercontent.com/Cynix-7/OpenCADStudio/main/plugins/registry.json";
 
 /// Fetch the curated plugin registry (`plugins/registry.json`).
 pub fn fetch_registry() -> Result<Vec<RegistryEntry>, String> {

@@ -69,6 +69,7 @@ fn text_and_dim_reach_pdf_export() {
         None,
         &p_text,
         None,
+        Default::default(),
     )
     .expect("export with text");
     let with_text = std::fs::read(&p_text).expect("read pdf");
@@ -96,6 +97,7 @@ fn text_and_dim_reach_pdf_export() {
         None,
         &p_bare,
         None,
+        Default::default(),
     )
     .expect("export without text");
     let no_text = std::fs::read(&p_bare).expect("read pdf");

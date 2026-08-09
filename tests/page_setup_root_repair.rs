@@ -121,8 +121,20 @@ fn ctab_is_created_against_a_repaired_root() {
     else {
         panic!("root must be a dictionary");
     };
+    // CTAB is a drawing variable, stored in the AcDbVariableDictionary child
+    // of the root NOD (the DWG convention — see set_drawing_variable). The
+    // root itself must carry that child dictionary so the record round-trips.
+    let vardict_h = root
+        .entries
+        .iter()
+        .find(|(k, _)| k == "AcDbVariableDictionary")
+        .map(|(_, h)| *h)
+        .expect("AcDbVariableDictionary must be registered in the repaired root NOD");
+    let Some(ObjectType::Dictionary(vardict)) = scene.document.objects.get(&vardict_h) else {
+        panic!("AcDbVariableDictionary must resolve to a dictionary");
+    };
     assert!(
-        root.entries.iter().any(|(k, _)| k == "CTAB"),
-        "CTAB must be registered in the repaired root NOD"
+        vardict.entries.iter().any(|(k, _)| k == "CTAB"),
+        "CTAB must be registered in the repaired root's variable dictionary"
     );
 }

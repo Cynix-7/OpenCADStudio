@@ -27,7 +27,7 @@
 /// `CFBundleIdentifier` in packaging/Info.plist and the installed `*.desktop`
 /// basename.
 #[cfg(any(target_os = "macos", target_os = "linux"))]
-pub(crate) const APP_ID: &str = "io.github.HakanSeven12.OpenCadStudio";
+pub(crate) const APP_ID: &str = "io.github.Cynix7.OpenCadStudio";
 
 /// Silently register this app as *a* handler (not necessarily the default) for
 /// .dwg / .dxf, so it appears in the OS "Open with" list. Unlike

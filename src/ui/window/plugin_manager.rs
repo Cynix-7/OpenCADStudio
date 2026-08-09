@@ -40,7 +40,7 @@ pub struct MarketView<'a> {
 /// Latest desktop builds, used by the browser-only plugin notice.
 #[cfg(target_arch = "wasm32")]
 pub const DESKTOP_DOWNLOAD_URL: &str =
-    "https://github.com/HakanSeven12/OpenCADStudio/releases/latest";
+    "https://github.com/Cynix-7/OpenCADStudio/releases/latest";
 
 // Register the command names for autocomplete. On the web they open a desktop
 // download notice instead of the native marketplace.

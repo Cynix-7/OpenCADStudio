@@ -545,14 +545,23 @@ mod tests {
             .document
             .entities()
             .find_map(|entity| match entity {
-                acadrust::EntityType::Circle(circle) => Some(circle),
+                acadrust::EntityType::Circle(circle) => Some(circle.clone()),
                 _ => None,
             })
             .expect("CIRCLE should create one entity");
+        // Circle centers are stored in OCS (object coordinate system) — the
+        // world position is OCS→WCS with the stored normal, exactly as the
+        // renderer reads it (src/entities/circle.rs). Assert world coords.
         let close = |a: f64, b: f64| (a - b).abs() < 1e-9;
-        assert!(close(circle.center.x, 2.0));
-        assert!(close(circle.center.y, 0.0));
-        assert!(close(circle.center.z, 3.0));
+        let normal = (circle.normal.x, circle.normal.y, circle.normal.z);
+        let (wx, wy, wz) =
+            crate::scene::view::transform::ocs_point_to_wcs(
+                (circle.center.x, circle.center.y, circle.center.z),
+                normal,
+            );
+        assert!(close(wx, 2.0), "world center.x = {wx}");
+        assert!(close(wy, 0.0), "world center.y = {wy}");
+        assert!(close(wz, 3.0), "world center.z = {wz}");
         assert!(close(circle.normal.x, 0.0));
         assert!(close(circle.normal.y, -1.0));
         assert!(close(circle.normal.z, 0.0));

@@ -16,3 +16,26 @@
 # WASM must be served with the correct MIME type.
 /studio/*.wasm
   Content-Type: application/wasm
+
+# ── Caching ──────────────────────────────────────────────────────────────
+# Hashed build artifacts are immutable: content-addressed names (trunk appends
+# a content hash to the wasm/js), so a long max-age + immutable is safe and
+# avoids re-downloading the 10 MB app wasm on every visit.
+/studio/*.wasm
+  Cache-Control: public, max-age=31536000, immutable
+/studio/*.js
+  Cache-Control: public, max-age=31536000, immutable
+/studio/fonts/*
+  Cache-Control: public, max-age=31536000, immutable
+/studio/worker_pkg/*
+  Cache-Control: public, max-age=31536000, immutable
+
+# Video thumbnails and JSON snapshots change per deploy — short TTL.
+/studio/video_thumbs/*
+  Cache-Control: public, max-age=3600
+/studio/*.json
+  Cache-Control: public, max-age=3600
+
+# The app shell must revalidate so users get new builds promptly.
+/studio/index.html
+  Cache-Control: public, max-age=0, must-revalidate

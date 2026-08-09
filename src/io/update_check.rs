@@ -8,9 +8,9 @@
 
 #[cfg(not(target_arch = "wasm32"))]
 const RELEASES_API: &str =
-    "https://api.github.com/repos/HakanSeven12/OpenCADStudio/releases/latest";
+    "https://api.github.com/repos/Cynix-7/OpenCADStudio/releases/latest";
 pub const RELEASES_PAGE: &str =
-    "https://github.com/HakanSeven12/OpenCADStudio/releases/latest";
+    "https://github.com/Cynix-7/OpenCADStudio/releases/latest";
 
 /// Minimum age before a freshly-published release is offered to the user.
 /// GitHub Actions takes ~15 min to build and attach the platform binaries

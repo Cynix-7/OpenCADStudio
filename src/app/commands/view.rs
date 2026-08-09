@@ -6,15 +6,17 @@ impl OpenCADStudio {
             "DONATE" => {
                 self.command_line.push_info(crate::t!("Opening Patreon page...").as_ref());
                 return Some(crate::sys::open_url(
-                    "https://patreon.com/HakanSeven12",
+                    "https://github.com/Cynix-7/OpenCADStudio",
                     self.main_window,
                 ));
             }
 
             "WEBVERSION" => {
-                self.command_line.push_info(crate::t!("Opening OCS Web...").as_ref());
+                self.command_line.push_info(crate::t!("Opening OpenCAD Web...").as_ref());
                 return Some(crate::sys::open_url(
-                    "https://hakanseven12.github.io/OpenCADStudio/",
+                    // The deployed web version (hosted site). Falls back to
+                    // the repo when the site isn't live yet.
+                    option_env!("OCS_WEB_URL").unwrap_or("https://opencad.app"),
                     self.main_window,
                 ));
             }
@@ -23,7 +25,7 @@ impl OpenCADStudio {
                 self.command_line
                     .push_info(crate::t!("Opening OCS Discussions for help and questions...").as_ref());
                 return Some(crate::sys::open_url(
-                    "https://github.com/HakanSeven12/OpenCADStudio/discussions",
+                    "https://github.com/Cynix-7/OpenCADStudio/discussions",
                     self.main_window,
                 ));
             }
@@ -210,7 +212,7 @@ impl OpenCADStudio {
                     crate::sys::platform_info(),
                 );
                 let url = format!(
-                    "https://github.com/HakanSeven12/OpenCADStudio/issues/new?body={}",
+                    "https://github.com/Cynix-7/OpenCADStudio/issues/new?body={}",
                     crate::sys::percent_encode(&body)
                 );
                 self.command_line.push_info(crate::t!("Opening feedback page...").as_ref());
@@ -228,7 +230,7 @@ impl OpenCADStudio {
             "CHANGELOG" => {
                 self.command_line.push_info(crate::t!("Opening release notes...").as_ref());
                 return Some(crate::sys::open_url(
-                    "https://github.com/HakanSeven12/OpenCADStudio/releases",
+                    "https://github.com/Cynix-7/OpenCADStudio/releases",
                     self.main_window,
                 ));
             }

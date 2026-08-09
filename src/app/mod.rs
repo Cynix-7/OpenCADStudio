@@ -3643,7 +3643,7 @@ pub fn run_web() -> iced::Result {
         OpenCADStudio::view_main,
     )
     .subscription(OpenCADStudio::subscription)
-    .title(|_state: &OpenCADStudio| "Open CAD Studio".to_string())
+    .title(|_state: &OpenCADStudio| "OpenCAD Web".to_string())
     .theme(|state: &OpenCADStudio| state.active_theme.clone())
     .font(iced_aw::ICED_AW_FONT_BYTES)
     .run()

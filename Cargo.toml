@@ -126,3 +126,9 @@ iced = { git = "https://github.com/iced-rs/iced.git", rev = "23604ff22ab0aad9e00
 
 [profile.release]
 strip = true
+# WebAssembly size optimizations: LTO + size-optimized codegen shrink the
+# ~10 MB gzipped app wasm significantly. codegen-units=1 serializes the final
+# codegen pass (slower builds, smaller output) — worth it for the web artifact.
+lto = "thin"
+opt-level = "z"
+codegen-units = 1

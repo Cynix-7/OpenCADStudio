@@ -3022,7 +3022,7 @@ fn start_page_content<'a>(
         )
         .interaction(iced::mouse::Interaction::Pointer)
         .on_press(Message::OpenUrl(
-            "https://patreon.com/HakanSeven12".to_string(),
+            "https://github.com/Cynix-7/OpenCADStudio".to_string(),
         ));
         container(column![
             iced::widget::scrollable(list).height(Fill),
