@@ -8,6 +8,9 @@
 #   dist/_headers    → COOP/COEP for /studio/* only
 set -euo pipefail
 cd "$(dirname "$0")/.."
+# Ensure cargo-installed tools (trunk, wasm-bindgen) are findable in CI and
+# non-login shells where ~/.cargo/bin is not on PATH.
+export PATH="${CARGO_HOME:-$HOME/.cargo}/bin:$PATH"
 
 echo "==> Building Astro site"
 (cd site && npm run build)
