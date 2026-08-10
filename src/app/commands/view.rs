@@ -4,9 +4,13 @@ impl OpenCADStudio {
     pub(super) fn dispatch_view(&mut self, cmd: &str, i: usize) -> Option<Task<Message>> {
         match cmd {
             "DONATE" => {
-                self.command_line.push_info(crate::t!("Opening Patreon page...").as_ref());
+                self.command_line.push_info(crate::t!("Opening support page...").as_ref());
                 return Some(crate::sys::open_url(
-                    "https://github.com/Cynix-7/OpenCADStudio",
+                    // Ad-funded tool with an optional donations channel.
+                    // Override at build time via OCS_DONATE_URL; defaults to
+                    // GitHub Sponsors (0% platform fee, fits the OSS project).
+                    option_env!("OCS_DONATE_URL")
+                        .unwrap_or("https://github.com/sponsors/Cynix-7"),
                     self.main_window,
                 ));
             }
@@ -224,7 +228,18 @@ impl OpenCADStudio {
             }
 
             "PLUGINS" | "PLUGINMANAGER" => {
-                return Some(Task::done(Message::PluginManagerOpen));
+                // Native plugins are cdylibs (.so/.dll/.dylib) — the browser
+                // build cannot load them, so the manager is desktop-only.
+                #[cfg(target_arch = "wasm32")]
+                {
+                    self.command_line
+                        .push_info(crate::t!("Plugins are not available in the web version.").as_ref());
+                    return None;
+                }
+                #[cfg(not(target_arch = "wasm32"))]
+                {
+                    return Some(Task::done(Message::PluginManagerOpen));
+                }
             }
 
             "CHANGELOG" => {

@@ -2624,7 +2624,12 @@ fn start_page_content<'a>(
         .into(),
         outline_btn(crate::tr!("action-options"), Message::OptionsOpen).into(),
     ];
-    secondary_items.push(outline_btn(crate::tr!("action-plugins"), Message::PluginManagerOpen).into());
+    // The web (wasm) build cannot load native plugin cdylibs
+    // (.so/.dll/.dylib), so the Plugin Manager entry is desktop-only.
+    #[cfg(not(target_arch = "wasm32"))]
+    {
+        secondary_items.push(outline_btn(crate::tr!("action-plugins"), Message::PluginManagerOpen).into());
+    }
     // The web build is already in the browser, so only the desktop offers a
     // link to the web version.
     #[cfg(not(target_arch = "wasm32"))]

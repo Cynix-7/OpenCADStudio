@@ -60,6 +60,17 @@ curl -sI https://<domain>/studio/ | grep -iE 'cross-origin'
 5. Until approval, slots render a neutral "Advertisement" placeholder at fixed
    min-height — zero layout shift, no broken layout when blocked.
 
+## Donate button
+
+The app's DONATE button opens `https://github.com/sponsors/Cynix-7` by
+default (GitHub Sponsors — 0% platform fee, fits the open-source project).
+Override at build time:
+```bash
+OCS_DONATE_URL=https://ko-fi.com/yourpage trunk build --release
+```
+The app's own support link (WEBVERSION) is similarly overridable via
+`OCS_WEB_URL`.
+
 ## Revenue model
 
 - All features free; ads in chrome slots only; never over the canvas
