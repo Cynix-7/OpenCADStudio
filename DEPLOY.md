@@ -62,9 +62,9 @@ curl -sI https://<domain>/studio/ | grep -iE 'cross-origin'
 
 ## Donate button
 
-The app's DONATE button opens `https://github.com/sponsors/Cynix-7` by
-default (GitHub Sponsors — 0% platform fee, fits the open-source project).
-Override at build time:
+The app's DONATE button opens `https://ko-fi.com/cynixdev` by default
+(Ko-fi — 0% platform fee, simple one-off tips and memberships). Override at
+build time:
 ```bash
 OCS_DONATE_URL=https://ko-fi.com/yourpage trunk build --release
 ```

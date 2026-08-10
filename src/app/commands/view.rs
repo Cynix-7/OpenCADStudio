@@ -8,9 +8,9 @@ impl OpenCADStudio {
                 return Some(crate::sys::open_url(
                     // Ad-funded tool with an optional donations channel.
                     // Override at build time via OCS_DONATE_URL; defaults to
-                    // GitHub Sponsors (0% platform fee, fits the OSS project).
+                    // Ko-fi (0% platform fee, simple one-off + memberships).
                     option_env!("OCS_DONATE_URL")
-                        .unwrap_or("https://github.com/sponsors/Cynix-7"),
+                        .unwrap_or("https://ko-fi.com/cynixdev"),
                     self.main_window,
                 ));
             }
