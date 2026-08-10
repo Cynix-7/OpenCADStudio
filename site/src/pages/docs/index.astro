@@ -1,0 +1,68 @@
+---
+// /docs/ — documentation hub: card grid of every guide.
+import DocsLayout from "../../layouts/DocsLayout.astro";
+
+const groups = [
+  {
+    label: "Start here",
+    docs: [
+      { path: "/docs/getting-started/", title: "Getting started", desc: "Open the app, draw your first line, save and export — in about five minutes.", emoji: "🚀" },
+      { path: "/docs/interface/", title: "Interface tour", desc: "Ribbon tabs, command line, canvas, tabs, and status bar — what everything is and where.", emoji: "🖥️" },
+      { path: "/docs/keyboard-shortcuts/", title: "Keyboard shortcuts", desc: "The complete shortcut reference: function keys, Ctrl/Cmd combos, and quick access.", emoji: "⌨️" },
+    ],
+  },
+  {
+    label: "Drafting",
+    docs: [
+      { path: "/docs/drawing-basics/", title: "Drawing basics", desc: "Lines, polylines, circles, arcs, rectangles and the drafting aids that make them precise.", emoji: "📐" },
+      { path: "/docs/layers/", title: "Layers, colors & linetypes", desc: "Organize your drawing with layers, control color and linetype per object.", emoji: "🎨" },
+      { path: "/docs/dimensions/", title: "Dimensions", desc: "Linear, aligned, angular, radius and diameter dimensions — plus dimension styles.", emoji: "📏" },
+      { path: "/docs/blocks/", title: "Blocks & attributes", desc: "Reusable geometry, attribute definitions, and editing block references.", emoji: "🧩" },
+      { path: "/docs/text/", title: "Text & annotation", desc: "Single-line text, multiline text, text styles, and editing tools.", emoji: "🔤" },
+    ],
+  },
+  {
+    label: "Files & output",
+    docs: [
+      { path: "/docs/file-formats/", title: "File formats", desc: "DWG, DXF, STL, STEP, OBJ, PDF — what each format is for and which to pick.", emoji: "📁" },
+      { path: "/docs/saving-exporting/", title: "Saving & exporting", desc: "Save, Save As, and export your drawing to every supported format.", emoji: "💾" },
+      { path: "/docs/printing/", title: "Printing & PDF", desc: "Plot to paper or PDF, page setup, paper sizes, and print styles.", emoji: "🖨️" },
+      { path: "/docs/3d-modeling/", title: "3D modeling", desc: "Model in 3D right in the browser: solids, views, and the 3D toolset.", emoji: "🧊" },
+    ],
+  },
+  {
+    label: "Help",
+    docs: [
+      { path: "/docs/troubleshooting/", title: "Troubleshooting", desc: "Slow first load, files that won't open, GPU fallback, and other fixes.", emoji: "🔧" },
+      { path: "/docs/faq/", title: "FAQ", desc: "Privacy, offline use, formats, ads, the GPL license — quick answers.", emoji: "❓" },
+    ],
+  },
+];
+---
+
+<DocsLayout title="Documentation" description="Cadelo user documentation — guides for drawing, editing, exporting, and troubleshooting in the free browser CAD app.">
+  <h1>Documentation</h1>
+  <p class="muted" style="font-size:1.05rem;">
+    Everything you need to draft with Cadelo — from your first line to printing a
+    drawing. Pick a guide below, or <a href="/app/">open the app</a> and start drawing.
+  </p>
+
+  {
+    groups.map((g) => (
+      <section style="margin-top:2rem;">
+        <h2>{g.label}</h2>
+        <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:1rem; margin-top:0.75rem;">
+          {
+            g.docs.map((d) => (
+              <a href={d.path} style="text-decoration:none; color:inherit; background:var(--chrome); border:1px solid var(--border); border-radius:12px; padding:1.25rem; display:block; transition:border-color 0.15s ease;">
+                <div style="font-size:1.5rem;">{d.emoji}</div>
+                <h3 style="margin:0.6rem 0 0.25rem; color:var(--text); font-size:1.05rem;">{d.title}</h3>
+                <p class="muted" style="margin:0; font-size:0.9rem;">{d.desc}</p>
+              </a>
+            ))
+          }
+        </div>
+      </section>
+    ))
+  }
+</DocsLayout>

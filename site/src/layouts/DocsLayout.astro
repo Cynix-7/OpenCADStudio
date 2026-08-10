@@ -1,0 +1,208 @@
+---
+// DocsLayout.astro — documentation pages with sidebar nav.
+// Dark theme matches the rest of the site (bg #16161c, chrome #1f1f27, accent cyan #00b8d4).
+import BaseLayout from "./BaseLayout.astro";
+import AdSlot from "../components/AdSlot.astro";
+
+interface Props {
+  title: string;
+  description?: string;
+  group?: string; // "start" | "drafting" | "files" | "help"
+  next?: string; // path of the next doc page
+}
+const { title, description = title, group = "", next } = Astro.props.frontmatter ?? Astro.props;
+
+const groups: { key: string; label: string; docs: { path: string; label: string }[] }[] = [
+  {
+    key: "start",
+    label: "Start here",
+    docs: [
+      { path: "/docs/getting-started/", label: "Getting started" },
+      { path: "/docs/interface/", label: "Interface tour" },
+      { path: "/docs/keyboard-shortcuts/", label: "Keyboard shortcuts" },
+    ],
+  },
+  {
+    key: "drafting",
+    label: "Drafting",
+    docs: [
+      { path: "/docs/drawing-basics/", label: "Drawing basics" },
+      { path: "/docs/layers/", label: "Layers, colors & linetypes" },
+      { path: "/docs/dimensions/", label: "Dimensions" },
+      { path: "/docs/blocks/", label: "Blocks & attributes" },
+      { path: "/docs/text/", label: "Text & annotation" },
+    ],
+  },
+  {
+    key: "files",
+    label: "Files & output",
+    docs: [
+      { path: "/docs/file-formats/", label: "File formats" },
+      { path: "/docs/saving-exporting/", label: "Saving & exporting" },
+      { path: "/docs/printing/", label: "Printing & PDF" },
+      { path: "/docs/3d-modeling/", label: "3D modeling" },
+    ],
+  },
+  {
+    key: "help",
+    label: "Help",
+    docs: [
+      { path: "/docs/troubleshooting/", label: "Troubleshooting" },
+      { path: "/docs/faq/", label: "FAQ" },
+    ],
+  },
+];
+---
+
+<BaseLayout title={title} description={description}>
+  <div class="docs-wrap">
+    <nav class="docs-sidebar" aria-label="Documentation">
+      <a href="/docs/" class="docs-home">📚 Documentation</a>
+      {
+        groups.map((g) => (
+          <div class="docs-group">
+            <div class="docs-group-label">{g.label}</div>
+            {
+              g.docs.map((d) => (
+                <a
+                  href={d.path}
+                  class:list={{
+                    "docs-link": true,
+                    active:
+                      Astro.url.pathname.replace(/\/$/, "") === d.path.replace(/\/$/, ""),
+                  }}
+                >
+                  {d.label}
+                </a>
+              ))
+            }
+          </div>
+        ))
+      }
+      <div class="docs-group">
+        <div class="docs-group-label">Elsewhere</div>
+        <a class="docs-link" href="/blog/">Blog</a>
+        <a class="docs-link" href="/app/">Open the app</a>
+      </div>
+    </nav>
+
+    <article class="docs-content">
+      <slot />
+      {
+        next && (
+          <p class="docs-next">
+            Next: <a href={next}>Continue reading →</a>
+          </p>
+        )
+      }
+      <div class="docs-ad"><AdSlot format="inarticle" /></div>
+      <p class="muted" style="font-size:0.9rem;">
+        <a href="/docs/">← All documentation</a> · <a href="/app/">Open Cadelo</a>
+      </p>
+    </article>
+  </div>
+
+  <style>
+    .docs-wrap {
+      display: flex;
+      gap: 2.5rem;
+      align-items: flex-start;
+      max-width: 1180px;
+      margin: 0 auto;
+    }
+    .docs-sidebar {
+      flex: 0 0 240px;
+      position: sticky;
+      top: 72px;
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+      max-height: calc(100vh - 96px);
+      overflow-y: auto;
+      padding-right: 0.5rem;
+    }
+    .docs-home {
+      font-weight: 700;
+      color: var(--text);
+      text-decoration: none;
+      font-size: 1.05rem;
+    }
+    .docs-home:hover { color: var(--accent); text-decoration: none; }
+    .docs-group-label {
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--muted);
+      margin-bottom: 0.4rem;
+    }
+    .docs-link {
+      display: block;
+      color: var(--muted);
+      font-size: 0.92rem;
+      padding: 0.28rem 0.6rem;
+      border-radius: 6px;
+      margin: 0.1rem 0;
+      text-decoration: none;
+      border-left: 2px solid transparent;
+    }
+    .docs-link:hover { color: var(--text); background: var(--chrome); text-decoration: none; }
+    .docs-link.active { color: var(--accent); border-left-color: var(--accent); background: var(--chrome); }
+    .docs-content {
+      flex: 1 1 auto;
+      min-width: 0;
+      max-width: 780px;
+    }
+    .docs-content h1 { font-size: 1.9rem; }
+    .docs-content h2 { margin-top: 2.25rem; padding-bottom: 0.35rem; border-bottom: 1px solid var(--border); }
+    .docs-content h3 { margin-top: 1.5rem; }
+    .docs-content table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 1.25rem 0;
+      font-size: 0.92rem;
+    }
+    .docs-content th, .docs-content td {
+      border: 1px solid var(--border);
+      padding: 0.5rem 0.75rem;
+      text-align: left;
+      vertical-align: top;
+    }
+    .docs-content th { background: var(--chrome); }
+    .docs-content code { background: var(--chrome); padding: 0.1rem 0.35rem; border-radius: 4px; font-size: 0.88em; }
+    .docs-content pre code { background: transparent; padding: 0; }
+    .docs-content kbd {
+      display: inline-block;
+      background: var(--chrome);
+      border: 1px solid var(--border);
+      border-bottom-width: 2px;
+      border-radius: 5px;
+      padding: 0.1rem 0.45rem;
+      font-family: ui-monospace, "Cascadia Mono", Menlo, monospace;
+      font-size: 0.82em;
+      color: var(--text);
+    }
+    .docs-content blockquote {
+      margin: 1rem 0;
+      padding: 0.6rem 1rem;
+      border-left: 3px solid var(--accent);
+      background: var(--chrome);
+      border-radius: 0 8px 8px 0;
+    }
+    .docs-next { margin-top: 2rem; font-weight: 600; }
+    .docs-ad { margin-top: 1.5rem; }
+    @media (max-width: 860px) {
+      .docs-wrap { flex-direction: column; }
+      .docs-sidebar {
+        position: static;
+        flex: none;
+        width: 100%;
+        max-height: none;
+        overflow: visible;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 0.75rem 1.5rem;
+      }
+      .docs-home { grid-column: 1 / -1; }
+    }
+  </style>
+</BaseLayout>
