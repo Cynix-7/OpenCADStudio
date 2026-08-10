@@ -16,11 +16,11 @@ impl OpenCADStudio {
             }
 
             "WEBVERSION" => {
-                self.command_line.push_info(crate::t!("Opening OpenCAD Web...").as_ref());
+                self.command_line.push_info(crate::t!("Opening Cadelo...").as_ref());
                 return Some(crate::sys::open_url(
                     // The deployed web version (hosted site). Falls back to
                     // the repo when the site isn't live yet.
-                    option_env!("OCS_WEB_URL").unwrap_or("https://opencad.app"),
+                    option_env!("OCS_WEB_URL").unwrap_or("https://cadelo.app"),
                     self.main_window,
                 ));
             }

@@ -7,38 +7,106 @@ import AdSlot from "../components/AdSlot.astro";
 ---
 
 <BaseLayout
-  title="OpenCAD Web — Free Browser CAD App"
+  title="Cadelo — Free Browser CAD App"
   description="Open, edit, and export DWG and DXF files free in your browser. No install, no signup, GPU-accelerated CAD app."
 >
-  <style>
+  <style is:global>
     .app-stage {
       width: 100%;
       max-width: 1400px;
       margin: 0 auto;
+      transition: max-width 0.2s ease;
+    }
+    .app-toolbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      margin-bottom: 0.9rem;
+      flex-wrap: wrap;
+    }
+    .app-toolbar h1 {
+      font-size: 1.25rem;
+      margin: 0;
     }
     .app-frame {
       width: 100%;
-      height: calc(100vh - 210px);
+      height: calc(100vh - 260px);
       min-height: 560px;
       border: 1px solid var(--border);
       border-radius: 12px;
       background: #1e1e1e;
       display: block;
+      transition: height 0.2s ease, border-radius 0.2s ease;
+    }
+    /* Maximized mode (toggled by the button): hide the ad slots and grow the
+       frame to the full viewport so the canvas gets every pixel. This is a
+       plain CSS resize — NOT the browser Fullscreen API (no F11 behaviour,
+       no permission prompts, keeps the page chrome in control). */
+    .app-stage.maximized {
+      max-width: none;
+    }
+    .app-stage.maximized .ad-slot {
+      display: none !important;
+      margin: 0 !important;
+    }
+    .app-stage.maximized .app-frame {
+      height: calc(100vh - 78px);
+      min-height: calc(100vh - 78px);
+      border: none;
+      border-radius: 0;
+    }
+    .app-stage.maximized .app-subtitle {
+      display: none;
+    }
+    .fs-btn {
+      background: var(--chrome);
+      color: var(--text);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 0.45rem 0.9rem;
+      font-size: 0.85rem;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      transition: border-color 0.15s ease, color 0.15s ease;
+    }
+    .fs-btn:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+    .fs-btn svg {
+      width: 15px;
+      height: 15px;
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
     }
   </style>
 
-  <h1 style="font-size:1.5rem; text-align:center;">OpenCAD Web — Free Browser CAD</h1>
-  <p class="muted" style="text-align:center; margin-top:-0.5rem;">
+  <div class="app-toolbar">
+    <h1>Cadelo — Free Browser CAD</h1>
+    <button class="fs-btn" id="max-toggle" type="button" aria-pressed="false">
+      <svg viewBox="0 0 16 16" aria-hidden="true">
+        <path d="M6 1H1v5M10 1h5v5M6 15H1v-5M10 15h5v-5" />
+      </svg>
+      <span id="max-label">Maximize</span>
+    </button>
+  </div>
+  <p class="muted app-subtitle" style="text-align:center; margin-top:-0.5rem;">
     DWG/DXF editor in your browser. Your files never leave your device.
   </p>
 
-  <div class="app-stage">
+  <div class="app-stage" id="app-stage">
     <AdSlot format="leaderboard" />
     <iframe
       class="app-frame"
       src="/studio/"
-      title="OpenCAD Web CAD app"
-      allow="fullscreen; clipboard-write"
+      title="Cadelo CAD app"
+      allow="clipboard-write"
       loading="eager"
     ></iframe>
     <AdSlot format="leaderboard" />
@@ -46,4 +114,19 @@ import AdSlot from "../components/AdSlot.astro";
       No account · No upload · Open source (GPL-3.0) · Keyboard: L=line, C=circle, R=rect, Ctrl+S=save, Ctrl+E=export
     </p>
   </div>
+
+  <script>
+    // Maximize toggle: pure CSS resize of the app frame (hide ad slots, grow
+    // the iframe to the viewport). Deliberately NOT the Fullscreen API —
+    // no F11 behaviour, works identically in any context, and the page
+    // chrome (and ads on exit) stay under our control.
+    const stage = document.getElementById("app-stage");
+    const btn = document.getElementById("max-toggle");
+    const label = document.getElementById("max-label");
+    btn.addEventListener("click", () => {
+      const on = stage.classList.toggle("maximized");
+      label.textContent = on ? "Restore" : "Maximize";
+      btn.setAttribute("aria-pressed", String(on));
+    });
+  </script>
 </BaseLayout>

@@ -13,7 +13,7 @@ For forty years, serious CAD software has lived on the desktop. You installed a 
 
 WebAssembly (WASM) is a low-level bytecode format that browsers can execute at near-native speed. Here's the part that matters for CAD: **you can compile existing C++ and Rust codebases to WASM and run them in the browser, unchanged.**
 
-That's not a toy. The Rust CAD engine inside OpenCAD Web — the same engine that runs as a native desktop app — is compiled straight to WASM. The browser is running the real thing, not a reimplementation.
+That's not a toy. The Rust CAD engine inside Cadelo — the same engine that runs as a native desktop app — is compiled straight to WASM. The browser is running the real thing, not a reimplementation.
 
 ## What that means for rendering
 
@@ -22,7 +22,7 @@ CAD is GPU work. Lines, arcs, shaded solids, pan and zoom across a 10,000-entity
 - **WebGPU** — the modern browser graphics API — is now available in Chrome, Edge, and Android, with Firefox and Safari following. It gives WASM CAD direct access to your GPU.
 - **WebGL2** covers the rest as a fallback.
 
-OpenCAD Web uses [wgpu](https://wgpu.rs/), the same Rust graphics abstraction used by the desktop version. The rendering path is identical; only the driver changes. GPU-accelerated CAD in a browser tab, at desktop-app framerates.
+Cadelo uses [wgpu](https://wgpu.rs/), the same Rust graphics abstraction used by the desktop version. The rendering path is identical; only the driver changes. GPU-accelerated CAD in a browser tab, at desktop-app framerates.
 
 ## What that means for files
 
@@ -62,7 +62,7 @@ WASM CAD isn't magic:
 
 ## Try it
 
-OpenCAD Web puts a real CAD engine in your browser, free, with no account. Open a DWG, draft a part, export to DXF for your laser cutter — all in one tab.
+Cadelo puts a real CAD engine in your browser, free, with no account. Open a DWG, draft a part, export to DXF for your laser cutter — all in one tab.
 
 **[Open the app](/app/) — it's free and private.**
 

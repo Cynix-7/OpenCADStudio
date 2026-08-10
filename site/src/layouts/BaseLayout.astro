@@ -6,7 +6,7 @@ interface Props {
   description: string;
 }
 const { title, description } = Astro.props;
-const SITE = "OpenCAD Web";
+const SITE = "Cadelo";
 ---
 
 <!doctype html>
@@ -126,7 +126,7 @@ const SITE = "OpenCAD Web";
   </head>
   <body>
     <header class="site">
-      <a class="logo" href="/">Open<span>CAD</span> Web</a>
+      <a class="logo" href="/">Cadelo</a>
       <nav>
         <a href="/">Home</a>
         <a href="/app/">Open App</a>
@@ -139,7 +139,7 @@ const SITE = "OpenCAD Web";
       <slot />
     </main>
     <footer class="site">
-      <div>© {new Date().getFullYear()} OpenCAD Web — free browser CAD, DWG/DXF, no install.</div>
+      <div>© {new Date().getFullYear()} Cadelo — free browser CAD, DWG/DXF, no install.</div>
       <div>
         <a href="/privacy/">Privacy</a> · <a href="/about/#license">GPL-3.0</a> ·
         <a href="https://github.com/Cynix-7/OpenCADStudio" target="_blank" rel="noopener">Source on GitHub</a>

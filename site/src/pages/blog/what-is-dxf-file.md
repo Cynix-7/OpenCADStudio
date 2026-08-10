@@ -13,7 +13,7 @@ But what actually is a DXF file? Why does everyone ask for it? And how do you op
 
 DXF stands for **Drawing Exchange Format**. Autodesk introduced it in 1982 as a way to exchange drawings between AutoCAD and other programs. The key word is *exchange*: DXF is a documented, openly published format, unlike the proprietary DWG binary format.
 
-The result: **every serious CAD program on Earth can read DXF.** AutoCAD, Fusion 360, SolidWorks, FreeCAD, Inkscape, Adobe Illustrator — and yes, browser-based tools like OpenCAD Web.
+The result: **every serious CAD program on Earth can read DXF.** AutoCAD, Fusion 360, SolidWorks, FreeCAD, Inkscape, Adobe Illustrator — and yes, browser-based tools like Cadelo.
 
 ## ASCII vs. binary DXF
 
@@ -40,7 +40,7 @@ Almost every tool that says "DXF export" produces ASCII DXF, which is what most 
 
 ## How to open a DXF file for free
 
-1. Open [OpenCAD Web](/app/) in your browser
+1. Open [Cadelo](/app/) in your browser
 2. Click **File → Open** (or drag and drop your `.dxf` file onto the window)
 3. Your drawing appears — pan, zoom, edit, add dimensions, change layers
 
@@ -48,7 +48,7 @@ Because the app runs locally in your browser via WebAssembly, your DXF is parsed
 
 ## How to export DXF
 
-In OpenCAD Web, **File → Export → DXF** writes a DXF file you can send to any shop, colleague, or other CAD program. You can also export DWG, SVG, PDF, STL (for 3D printing), and STEP (for CAD interchange) — all free, all from the same app.
+In Cadelo, **File → Export → DXF** writes a DXF file you can send to any shop, colleague, or other CAD program. You can also export DWG, SVG, PDF, STL (for 3D printing), and STEP (for CAD interchange) — all free, all from the same app.
 
 ## DXF versions: don't overthink it
 
@@ -57,10 +57,10 @@ DXF files carry a version tag (R12, R2000, R2018...). The practical rule:
 - **R2000 (or newer) for general use** — the sweet spot for compatibility and features
 - **R12 for maximum compatibility** — the "lowest common denominator" if a shop's software is ancient or cheap
 
-OpenCAD Web reads and writes DXF R13 through R2018, so you're covered either way.
+Cadelo reads and writes DXF R13 through R2018, so you're covered either way.
 
 ## The bottom line
 
-DXF is the open, universal handshake between CAD programs. Learning to use it — and having a free tool that opens and writes it without friction — removes the biggest compatibility headache in drafting. Keep one tab of OpenCAD Web open, and you'll never be stuck with a file you can't open again.
+DXF is the open, universal handshake between CAD programs. Learning to use it — and having a free tool that opens and writes it without friction — removes the biggest compatibility headache in drafting. Keep one tab of Cadelo open, and you'll never be stuck with a file you can't open again.
 
 **Related:** [Open DWG Files Online Free](/blog/open-dwg-online-free/) · [How Browser CAD Works](/blog/browser-cad-webassembly/)

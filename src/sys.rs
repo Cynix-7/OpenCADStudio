@@ -417,7 +417,7 @@ pub mod web_diag {
                 // Copy puts the full error text on the clipboard; Dismiss
                 // removes the overlay so the app stays usable underneath.
                 overlay.set_inner_html(
-                    "<div><b>OpenCADStudio renderer error</b> — please copy \
+                    "<div><b>Cadelo renderer error</b> — please copy \
                      this into a bug report: \
                      <button style=\"margin-left:8px\" onclick=\"navigator.clipboard.writeText(\
                      document.getElementById('ocs-err-text').innerText)\">Copy</button> \

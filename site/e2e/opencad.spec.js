@@ -40,5 +40,20 @@ test.describe("OpenCAD Web", () => {
     await expect(frame.locator("canvas, #loading")).toHaveCount(1, { timeout: 60000 });
     // ad slots present above/below the iframe
     await expect(page.locator(".ad-slot")).toHaveCount(2);
+    // maximize toggle: pure CSS resize (hides ad slots, grows the frame).
+    // Not the Fullscreen API — so we assert the class flips and the ads hide.
+    const fsBtn = page.locator("#max-toggle");
+    await expect(fsBtn).toBeVisible();
+    await expect(page.locator("#max-label")).toHaveText("Maximize");
+    await expect(page.locator(".app-stage")).not.toHaveClass(/maximized/);
+    await fsBtn.click();
+    await expect(page.locator(".app-stage")).toHaveClass(/maximized/);
+    await expect(page.locator("#max-label")).toHaveText("Restore");
+    await expect(page.locator(".ad-slot").first()).toBeHidden();
+    await expect(page.getByRole("heading", { name: "Cadelo — Free Browser CAD" })).toBeVisible();
+    // click again to restore
+    await fsBtn.click();
+    await expect(page.locator(".app-stage")).not.toHaveClass(/maximized/);
+    await expect(page.locator(".ad-slot").first()).toBeVisible();
   });
 });

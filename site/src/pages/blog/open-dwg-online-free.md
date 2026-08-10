@@ -22,7 +22,7 @@ DWG ("drawing") is a proprietary binary format developed by Autodesk in 1982. It
 
 ## The no-friction alternative: browser CAD with WebAssembly
 
-OpenCAD Web runs a full CAD engine — the same Rust engine used in desktop OpenCADStudio — compiled to WebAssembly. It runs **on your device**, which means:
+Cadelo runs a full CAD engine — the same Rust engine used in desktop OpenCADStudio — compiled to WebAssembly. It runs **on your device**, which means:
 
 - Your DWG file never leaves your computer
 - No account, no email, no signup
@@ -31,18 +31,18 @@ OpenCAD Web runs a full CAD engine — the same Rust engine used in desktop Open
 
 ## How to open a DWG file online for free
 
-1. Go to [OpenCAD Web](/app/)
+1. Go to [Cadelo](/app/)
 2. Wait a moment while the app loads (it's a full CAD engine — the first load is the slowest)
 3. Click **File → Open** and pick your `.dwg` file (or drag and drop it onto the window)
 4. Start editing. Pan with the mouse wheel, zoom, select entities, change layers
 
 ## DWG versions supported
 
-OpenCAD Web reads and writes DWG files from R13 (1994) through R2018 — that covers virtually every DWG file you'll encounter in the wild. If you receive a newer file, ask the sender to "Save As" an older DWG or DXF version, or convert it online.
+Cadelo reads and writes DWG files from R13 (1994) through R2018 — that covers virtually every DWG file you'll encounter in the wild. If you receive a newer file, ask the sender to "Save As" an older DWG or DXF version, or convert it online.
 
 ## DXF: the open alternative
 
-If you're the one sending files, consider exporting to **DXF** — the open, documented ASCII/binary sibling of DWG. Every CAD program reads DXF, and it's the format most makers, CNC shops, and laser-cutters expect. OpenCAD Web writes both.
+If you're the one sending files, consider exporting to **DXF** — the open, documented ASCII/binary sibling of DWG. Every CAD program reads DXF, and it's the format most makers, CNC shops, and laser-cutters expect. Cadelo writes both.
 
 ## Privacy matters
 

@@ -4,4 +4,4 @@ Allow: /
 # The WASM app is indexable — it's the main product surface.
 Allow: /app/
 
-Sitemap: https://opencad.app/sitemap.xml
+Sitemap: https://cadelo.app/sitemap.xml

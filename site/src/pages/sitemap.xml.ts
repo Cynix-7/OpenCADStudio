@@ -15,7 +15,7 @@ const paths = [
 ];
 
 export const GET: APIRoute = ({ site }) => {
-  const base = (site?.toString() || "https://opencad.app").replace(/\/$/, "");
+  const base = (site?.toString() || "https://cadelo.app").replace(/\/$/, "");
   const urls = paths
     .map(
       (u) => `  <url>
