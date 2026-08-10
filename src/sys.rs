@@ -372,8 +372,21 @@ pub mod web_diag {
     pub fn init() {
         let console_hook = std::panic::take_hook();
         std::panic::set_hook(Box::new(move |info| {
+            // Re-entrancy guard: if a panic fires while the panic handler is
+            // already running (e.g. the banner's DOM mutation re-enters the
+            // winit event loop after an initial panic), the winit runner's
+            // RefCell is already borrowed and a second panic aborts the loop
+            // with "RefCell already borrowed", masking the original error.
+            // Show the first error and swallow the cascade.
+            static IN_PANIC: std::sync::atomic::AtomicBool =
+                std::sync::atomic::AtomicBool::new(false);
+            if IN_PANIC.swap(true, std::sync::atomic::Ordering::SeqCst) {
+                return;
+            }
+            web_sys::console::error_1(&wasm_bindgen::JsValue::from_str(&info.to_string()));
             show_banner(&info.to_string());
             console_hook(info);
+            IN_PANIC.store(false, std::sync::atomic::Ordering::SeqCst);
         }));
         if log::set_boxed_logger(Box::new(BannerLogger)).is_ok() {
             log::set_max_level(log::LevelFilter::Error);

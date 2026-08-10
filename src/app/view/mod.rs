@@ -242,7 +242,6 @@ impl OpenCADStudio {
         // borders) and the floating content viewports blit on top.
         let viewport_3d: Element<'_, Message> = if tab.is_start {
             start_page_view(
-                &self.patrons,
                 &self.videos,
                 self.videos_loading,
                 &self.video_thumbs,
@@ -2509,7 +2508,6 @@ fn start_action_shape(mut style: button::Style) -> button::Style {
 }
 
 pub(super) fn start_page_view<'a>(
-    patrons: &'a [(String, i64)],
     videos: &'a [crate::videos::VideoEntry],
     videos_loading: bool,
     video_thumbs: &'a std::collections::HashMap<String, iced::widget::image::Handle>,
@@ -2527,7 +2525,6 @@ pub(super) fn start_page_view<'a>(
 ) -> Element<'a, Message> {
     responsive(move |size| {
         start_page_content(
-            patrons,
             videos,
             videos_loading,
             video_thumbs,
@@ -2546,7 +2543,6 @@ pub(super) fn start_page_view<'a>(
 }
 
 fn start_page_content<'a>(
-    patrons: &'a [(String, i64)],
     videos: &'a [crate::videos::VideoEntry],
     videos_loading: bool,
     video_thumbs: &'a std::collections::HashMap<String, iced::widget::image::Handle>,
@@ -2650,26 +2646,6 @@ fn start_page_content<'a>(
         .row_h(44.0)
         .report_natural_width(action_width_out.clone());
 
-    let sponsors = column![
-        text(crate::tr!("start-sponsors")).size(15),
-        mouse_area(
-            container(
-                iced::widget::svg(iced::widget::svg::Handle::from_memory(include_bytes!(
-                    "../../../assets/sponsors/openaec-logo-dark-on-light.svg"
-                )))
-                .width(Fill)
-                .height(iced::Length::Fixed(120.0))
-                .content_fit(iced::ContentFit::Contain),
-            )
-            .width(Fill.max(300.0)),
-        )
-        .interaction(iced::mouse::Interaction::Pointer)
-        .on_press(Message::OpenUrl("https://open-aec.com/".to_string())),
-    ]
-    .spacing(10)
-    .align_x(iced::alignment::Horizontal::Center)
-    .width(Fill);
-
     let content = column![
         Space::new().height(iced::Length::Fixed(28.0)),
         container(headline).center_x(Fill),
@@ -2678,7 +2654,6 @@ fn start_page_content<'a>(
         Space::new().height(iced::Length::Fixed(10.0)),
         container(secondary_row).center_x(Fill),
         Space::new().height(Fill),
-        sponsors,
         Space::new().height(iced::Length::Fixed(52.0)),
     ]
     .spacing(0)
@@ -2968,112 +2943,24 @@ fn start_page_content<'a>(
         .into()
     };
 
-    // Right rail: Patreon supporters, fetched at boot. When the list is empty
-    // (no token configured / offline) only the "Support on Patreon" button
-    // shows, so the rail always invites support.
-    let supporters: Element<'a, Message> = {
-        let mut list = column![
-            text(crate::tr!("start-supporters")).size(15),
-            Space::new().height(iced::Length::Fixed(12.0)),
-        ]
-        .spacing(6)
-        .padding(iced::Padding {
-            right: 12.0,
-            ..iced::Padding::ZERO
-        })
-        .width(Fill);
-        for (name, cents) in patrons {
-            // Patreon payments are normalized to USD cents while the list is
-            // generated; hand-maintained entries use USD cents as well.
-            let amount = format!("${:.2}", *cents as f64 / 100.0);
-            list = list.push(
-                iced::widget::row![
-                    text(name).size(12).style(start_muted_style).width(Fill),
-                    text(amount).size(12).style(start_muted_style),
-                ]
-                .spacing(6),
-            );
-        }
-        let support_btn = mouse_area(
-            container(
-                iced::widget::row![
-                    crate::ui::icons::themed_danger_text(crate::ui::icons::HEART, 13.0),
-                    text(crate::tr!("start-support-on-patreon")).size(12),
-                ]
-                .spacing(6)
-                .align_y(iced::Center),
-            )
-            .padding([6, 10])
-            .width(Fill)
-            .center_x(Fill)
-            .style(|theme: &Theme| {
-                let pair = theme.palette().danger.base;
-                container::Style {
-                background: Some(Background::Color(pair.color)),
-                border: Border {
-                    color: Color::TRANSPARENT,
-                    width: 0.0,
-                    radius: 6.0.into(),
-                },
-                text_color: Some(pair.text),
-                ..Default::default()
-                }
-            }),
-        )
-        .interaction(iced::mouse::Interaction::Pointer)
-        .on_press(Message::OpenUrl(
-            "https://github.com/Cynix-7/OpenCADStudio".to_string(),
-        ));
-        container(column![
-            iced::widget::scrollable(list).height(Fill),
-            Space::new().height(iced::Length::Fixed(12.0)),
-            support_btn,
-        ])
-        .width(match start_layout {
-            StartLayout::AllPanels
-            | StartLayout::WithoutVideos
-            | StartLayout::WithoutVideosAndDiscussions => {
-                iced::Length::Fixed(panel_w)
-            }
-            StartLayout::RecentAndWelcome
-            | StartLayout::Compact => iced::Length::Fill,
-        })
-        .height(Fill)
-        .padding(20)
-        .style(|theme: &Theme| {
-            let palette = theme.palette();
-            container::Style {
-            background: Some(Background::Color(palette.background.weak.color)),
-            border: Border {
-                color: palette.background.neutral.color,
-                width: 1.0,
-                radius: 8.0.into(),
-            },
-            ..Default::default()
-            }
-        })
-        .into()
-    };
-
     let body: Element<'a, Message> = match start_layout {
         StartLayout::AllPanels => iced::widget::row![
             recent,
             videos_panel,
             welcome,
             discussions_panel,
-            supporters,
         ]
         .spacing(16)
         .height(Fill)
         .into(),
         StartLayout::WithoutVideos => {
-            iced::widget::row![recent, welcome, discussions_panel, supporters]
+            iced::widget::row![recent, welcome, discussions_panel]
                 .spacing(16)
                 .height(Fill)
                 .into()
         }
         StartLayout::WithoutVideosAndDiscussions => {
-            iced::widget::row![recent, welcome, supporters]
+            iced::widget::row![recent, welcome]
                 .spacing(16)
                 .height(Fill)
                 .into()
@@ -3120,7 +3007,6 @@ fn start_page_content<'a>(
                 tab_btn(crate::tr!("start-videos"), super::StartSection::Videos).into(),
                 tab_btn(crate::tr!("start-welcome"), super::StartSection::Welcome).into(),
                 tab_btn(crate::tr!("start-discussions"), super::StartSection::Discussions).into(),
-                tab_btn(crate::tr!("start-supporters"), super::StartSection::Supporters).into(),
             ])
             .spacing(6.0)
             .align_y(iced::Center)
@@ -3139,11 +3025,6 @@ fn start_page_content<'a>(
                     .into(),
                 super::StartSection::Welcome => welcome.into(),
                 super::StartSection::Discussions => container(discussions_panel)
-                    .width(Fill)
-                    .height(Fill)
-                    .center_x(Fill)
-                    .into(),
-                super::StartSection::Supporters => container(supporters)
                     .width(Fill)
                     .height(Fill)
                     .center_x(Fill)

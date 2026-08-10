@@ -11,7 +11,6 @@ pub mod io;
 #[cfg(not(target_arch = "wasm32"))]
 pub(crate) mod network;
 pub mod modules;
-pub mod patreon;
 pub mod discussions;
 pub mod videos;
 pub mod plugin;

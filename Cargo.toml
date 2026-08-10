@@ -69,6 +69,12 @@ ashpd = { version = "0.13.13", default-features = false, features = ["async-io",
 [patch.crates-io]
 iced_core = { git = "https://github.com/iced-rs/iced.git", rev = "23604ff22ab0aad9e00b9327cb7b8546ed84db39" }
 iced_widget = { git = "https://github.com/iced-rs/iced.git", rev = "23604ff22ab0aad9e00b9327cb7b8546ed84db39" }
+# Vendored wgpu with a staging-belt fix for the web backend: recall() now only
+# returns chunks to the free list when map_async succeeds (the stock 29.0.4
+# sends them back even on failure, so a just-submitted buffer whose re-map
+# rejects gets reused as "mapped" and the next get_mapped_range() panics with
+# "Failed to execute 'getMappedRange'" on WebGPU). See vendor/wgpu/29.0.4.
+wgpu = { path = "vendor/wgpu/29.0.4" }
 
 [target.'cfg(not(target_arch = "wasm32"))'.dependencies]
 ocs_plugin_api = { path = "crates/ocs_plugin_api", features = ["host"] }

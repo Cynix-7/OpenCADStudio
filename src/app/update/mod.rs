@@ -5831,18 +5831,6 @@ impl OpenCADStudio {
                 }
                 Task::none()
             }
-            Message::PatronsFetched(Ok(names)) => {
-                // Merge the hand-maintained supporters and rank everyone by
-                // amount (also sorts the web list, which arrives unsorted).
-                self.patrons = crate::patreon::merge_manual(names);
-                Task::none()
-            }
-            // No token / offline: still show any hand-maintained supporters
-            // (Start page shows a "Support on Patreon" prompt when empty).
-            Message::PatronsFetched(Err(_)) => {
-                self.patrons = crate::patreon::merge_manual(Vec::new());
-                Task::none()
-            }
             Message::VideosFetched(Ok(videos)) => {
                 self.videos_loading = false;
                 self.set_videos(videos);
