@@ -3,15 +3,29 @@
 # which wasm threads (rayon) need for the multi-threaded parse path.
 # The /app/ host page and the content site intentionally do NOT set COEP,
 # so third-party ad scripts (AdSense) load normally there.
+#
+# IMPORTANT: Cloudflare Pages APPENDS headers from every matching rule —
+# it does not replace. If /studio/* and /* both set Content-Security-Policy,
+# the browser receives TWO CSP headers and enforces their INTERSECTION
+# (the strictest combination), which strips wasm-eval/blob-workers from the
+# app and breaks it. Therefore there is exactly ONE CSP for the whole site,
+# a union that covers both the app (wasm, blob workers, yt thumbs) and the
+# content site (AdSense). /studio/* only adds the COOP/COEP isolation pair.
+
+# ── The WASM app document (/studio/*) — isolation only, no CSP here ──────
 /studio/*
   Cross-Origin-Opener-Policy: same-origin
   Cross-Origin-Embedder-Policy: require-corp
+  X-Frame-Options: SAMEORIGIN
 
-# Security baseline for the whole site.
+# ── Whole site: one union CSP + security baseline ────────────────────────
 /*
   X-Content-Type-Options: nosniff
   Referrer-Policy: strict-origin-when-cross-origin
   Permissions-Policy: camera=(), microphone=(), geolocation=()
+  Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline' 'wasm-unsafe-eval' https://pagead2.googlesyndication.com https://googleads.g.doubleclick.net; worker-src 'self' blob:; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; font-src 'self' data:; connect-src 'self' https://pagead2.googlesyndication.com https://googleads.g.doubleclick.net; frame-src https://googleads.g.doubleclick.net https://tpc.googlesyndication.com https://pagead2.googlesyndication.com; frame-ancestors 'self'; object-src 'none'; base-uri 'self'; form-action 'self'
+  Strict-Transport-Security: max-age=31536000; includeSubDomains
+  X-Frame-Options: SAMEORIGIN
 
 # WASM must be served with the correct MIME type.
 /studio/*.wasm

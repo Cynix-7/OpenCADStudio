@@ -1,11 +1,11 @@
-# OpenCAD Web — Deployment Guide
+# Cadelo — Deployment Guide
 
 Free, ad-supported browser CAD (DWG/DXF) built from the OpenCADStudio fork.
 
 ## Architecture
 
 ```
-https://<domain>/
+https://cadelo.app/
 ├── /            → Astro content site (landing, blog, privacy, about, contact) + AdSense
 ├── /app/        → Host page: ad slots + iframe → /studio/
 └── /studio/     → WASM CAD app (Trunk build), COOP/COEP isolated
@@ -35,10 +35,10 @@ cd site && npm install && cd ..
 ## Deploy (Cloudflare Pages)
 
 1. Domain in Cloudflare (AdSense requires a custom domain; free-host subdomains are rejected)
-2. Create project: `npx wrangler pages project create opencad-web --production-branch main`
+2. Create project: `npx wrangler pages project create cadelo --production-branch main`
 3. Secrets in GitHub repo: `CF_API_TOKEN` (Pages:Edit), `CF_ACCOUNT_ID`
 4. Push to main → `.github/workflows/deploy-cf-pages.yml` builds + deploys
-5. Or manual: `npx wrangler pages deploy site/dist --project-name=opencad-web`
+5. Or manual: `npx wrangler pages deploy site/dist --project-name=cadelo`
 
 Verify headers:
 

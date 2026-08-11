@@ -3587,9 +3587,9 @@ pub fn run() -> iced::Result {
         if let Some(tab) = state.tabs.get(state.active_tab) {
             let dot = if tab.dirty { "● " } else { "" };
             let name = tab.tab_display_name();
-            format!("{}Open CAD Studio — {}", dot, name)
+            format!("{}Cadelo — {}", dot, name)
         } else {
-            "Open CAD Studio".to_string()
+            "Cadelo".to_string()
         }
     })
     .theme(|state: &OpenCADStudio, _| state.active_theme.clone())

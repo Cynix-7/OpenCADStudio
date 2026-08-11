@@ -20,7 +20,7 @@ use clap::Parser;
 #[command(
     name = "OpenCADStudio",
     version,
-    about = "Open CAD Studio — 2D/3D CAD editor",
+    about = "Cadelo — 2D/3D CAD editor",
     long_about = None,
 )]
 pub struct Cli {

@@ -2559,7 +2559,7 @@ fn start_page_content<'a>(
     action_width_out: std::sync::Arc<std::sync::atomic::AtomicU32>,
     active: super::StartSection,
 ) -> Element<'a, Message> {
-    let headline = text("Open CAD Studio").size(40).style(start_primary_style);
+    let headline = text("Cadelo").size(40).style(start_primary_style);
 
     // Plain outlined button (Open / New / Help / Contribute).
     let outline_btn = |label: String, msg: Message| {

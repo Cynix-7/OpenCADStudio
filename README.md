@@ -1,10 +1,10 @@
-# OpenCAD Web
+# Cadelo
 
 Free, ad-supported browser CAD — 2D drafting and 3D modeling with native DWG/DXF
 support, running entirely in your browser via WebAssembly (WebGPU with WebGL2
 fallback). No install, no account, no upload: your files never leave your device.
 
-**Try it:** <https://opencad.app> (once deployed — see [DEPLOY.md](DEPLOY.md))
+**Try it:** <https://cadelo.app>
 
 Fork of [OpenCADStudio](https://github.com/HakanSeven12/OpenCADStudio)
 (GPL-3.0), rebuilt as a web-first product with a content site and ad-funded
