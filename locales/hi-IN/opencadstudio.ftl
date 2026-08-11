@@ -42,7 +42,7 @@ command-line-literal-spaces = वास्तविक स्पेस: स्�
 
 start-new-drawing = नई ड्रॉइंग
 start-open-file = फ़ाइल खोलें…
-start-donate = दान करें
+start-donate = सहयोग करें
 start-send-feedback = प्रतिक्रिया भेजें
 start-sponsors = प्रायोजक
 start-tutorials = ट्यूटोरियल
@@ -990,7 +990,7 @@ catalog-distance-dist-angle-in-xy-plane-angle-xy-angle-276e5c04fe =
     दूरी = __ocs_arg_dist__, XY प्लेन = __ocs_arg_angle_xy__ °, XY प्लेन = __ocs_arg_angle_z__ ° से कोण
     डेल्टा एक्स = __ocs_arg_dx__, डेल्टा वाई = __ocs_arg_dy__, डेल्टा जेड = __ocs_arg_dz__
 catalog-do-you-want-to-save-changes-to-name-38086f7bcb = क्या आप “__ocs_arg_name__” में किए बदलाव सहेजना चाहते हैं?
-catalog-donate-95345e276f = दान करना
+catalog-donate-95345e276f = सहयोग करें
 catalog-done-e9b450d14b = दान
 catalog-double-8158159704 = डबल
 catalog-double-click-a-scale-to-rename-it-edit-its-pap-e9fb267199 = स्केल का नाम बदलने और कागज़:ड्रॉइंग अनुपात संपादित करने के लिए उस पर डबल-क्लिक करें। नया/कॉपी से स्केल जोड़ें। बंद करने से पहले लागू करें पर क्लिक करने पर ही बदलाव सहेजे जाएँगे।

@@ -1005,7 +1005,7 @@ catalog-distance-dist-angle-in-xy-plane-angle-xy-angle-276e5c04fe =
     Расстояние = __ocs_arg_dist__, угол в XY Плане = __ocs_arg_angle_xy__°, угол от XY Плане = __ocs_arg_angle_z__°
     Delta X = __ocs_arg_dx__, Delta Y = __ocs_arg_dy__, Delta Z = __ocs_arg_dz__
 catalog-do-you-want-to-save-changes-to-name-38086f7bcb = Хотите сохранить изменения в «__ocs_arg_name__»?
-catalog-donate-95345e276f = Пожертвование
+catalog-donate-95345e276f = Поддержать
 catalog-done-e9b450d14b = Готово
 catalog-double-8158159704 = двойной
 catalog-double-click-a-scale-to-rename-it-edit-its-pap-e9fb267199 = Дважды щёлкните масштаб, чтобы переименовать его. Здесь можно изменить соотношение единиц листа и чертежа. Кнопки «Новый» и «Копировать» добавляют масштаб. Изменения сохраняются только после нажатия «Применить».

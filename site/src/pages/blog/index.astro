@@ -3,19 +3,27 @@
 import BaseLayout from "../../layouts/BaseLayout.astro";
 const posts = Object.values(import.meta.glob("./*.md", { eager: true })).sort(
   (a: any, b: any) => (new Date(b.frontmatter.date) as any) - (new Date(a.frontmatter.date) as any)
-);
+).map((post: any) => ({
+  ...post,
+  url: post.url.endsWith("/") ? post.url : `${post.url}/`,
+  date: new Date(post.frontmatter.date).toLocaleDateString("en-US", {
+    year: "numeric",
+    month: "short",
+    day: "numeric",
+  }),
+}));
 ---
 
-<BaseLayout title="Blog — Free Browser CAD Tutorials" description="Tutorials and guides for free browser CAD, DWG and DXF files, and drafting online.">
+<BaseLayout title="Blog" description="Guides and tutorials for free browser CAD, DWG and DXF files, and drafting online.">
   <h1>Blog</h1>
-  <p class="muted">Guides, tutorials, and deep dives on browser CAD, DWG/DXF files, and drafting online.</p>
+  <p class="muted">Guides and tutorials on browser CAD, DWG/DXF files, and drafting online.</p>
   <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); gap:1.25rem; margin-top:1.5rem;">
     {
       posts.map((post: any) => (
-        <a href={post.url} style="text-decoration:none; color:inherit; background:var(--chrome); border:1px solid var(--border); border-radius:12px; padding:1.5rem; display:block;">
-          <div class="muted" style="font-size:0.85rem;">{post.frontmatter.date}</div>
-          <h3 style="margin:0.5rem 0 0.25rem; color:var(--text);">{post.frontmatter.title}</h3>
-          <p class="muted" style="margin:0; font-size:0.95rem;">{post.frontmatter.description}</p>
+        <a href={post.url} style="text-decoration:none; color:inherit; background:var(--chrome); border:1px solid var(--border); border-radius:12px; padding:1.5rem; display:flex; flex-direction:column; transition:border-color 0.15s ease;">
+          <div class="muted" style="font-size:0.85rem; margin-bottom:0.5rem;">{post.date}</div>
+          <h3 style="margin:0 0 0.35rem; color:var(--text);">{post.frontmatter.title}</h3>
+          <p class="muted" style="margin:0; font-size:0.95rem; flex:1;">{post.frontmatter.description}</p>
         </a>
       ))
     }

@@ -42,7 +42,7 @@ command-line-literal-spaces = 保留空格：空格会留在输入行中而不�
 
 start-new-drawing = 新建图形
 start-open-file = 打开文件…
-start-donate = 捐赠
+start-donate = 支持
 start-send-feedback = 发送反馈
 start-sponsors = 赞助商
 start-tutorials = 教程
@@ -989,7 +989,7 @@ catalog-distance-dist-angle-in-xy-plane-angle-xy-angle-276e5c04fe =
     距离 = __ocs_arg_dist__，  XY 平面内的角度 = __ocs_arg_angle_xy__°，  与 XY 平面的夹角 = __ocs_arg_angle_z__°
       ΔX = __ocs_arg_dx__，  ΔY = __ocs_arg_dy__，  ΔZ = __ocs_arg_dz__
 catalog-do-you-want-to-save-changes-to-name-38086f7bcb = 是否保存对“__ocs_arg_name__”的更改？
-catalog-donate-95345e276f = 捐赠
+catalog-donate-95345e276f = 支持
 catalog-done-e9b450d14b = 完成
 catalog-double-8158159704 = 双倍
 catalog-double-click-a-scale-to-rename-it-edit-its-pap-e9fb267199 = 双击比例可重命名；在此编辑其图纸:图形比例。新建/复制可添加比例。只有在关闭前点击“应用”才会保留更改。

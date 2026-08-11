@@ -61,7 +61,7 @@ area-running-result-area-only =
 
 start-new-drawing = Yeni Çizim
 start-open-file = Dosya Aç…
-start-donate = Bağış Yap
+start-donate = Destek Ol
 start-send-feedback = Geri Bildirim Gönder
 start-sponsors = Sponsorlar
 start-tutorials = Eğitimler
@@ -1027,7 +1027,7 @@ catalog-distance-dist-angle-in-xy-plane-angle-xy-delta-4dc5a169ce = Mesafe = __o
 catalog-distance-dist-angle-in-xy-plane-angle-xy-angle-276e5c04fe = Mesafe = __ocs_arg_dist__,  XY düzlemindeki açı = __ocs_arg_angle_xy__°,  XY düzleminden açı = __ocs_arg_angle_z__°
         X farkı = __ocs_arg_dx__,  Y farkı = __ocs_arg_dy__,  Z farkı = __ocs_arg_dz__
 catalog-do-you-want-to-save-changes-to-name-38086f7bcb = "__ocs_arg_name__" üzerinde yapılan değişiklikleri kaydetmek istiyor musunuz?
-catalog-donate-95345e276f = Bağış Yap
+catalog-donate-95345e276f = Destek Ol
 catalog-done-e9b450d14b = Tamamlandı
 catalog-double-8158159704 = Çift
 catalog-double-click-a-scale-to-rename-it-edit-its-pap-e9fb267199 = Bir ölçeği yeniden adlandırmak için çift tıklayın; kağıt : çizim oranını burada düzenleyin. Yeni / Kopyala ile ölçek ekleyin. Değişikliklerin korunması için pencereyi kapatmadan önce Uygula'ya tıklayın.

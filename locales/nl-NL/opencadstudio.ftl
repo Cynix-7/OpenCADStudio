@@ -42,7 +42,7 @@ command-line-literal-spaces = Letterlijke spaties: een spatie blijft in de regel
 
 start-new-drawing = Nieuwe tekening
 start-open-file = Bestand openen…
-start-donate = Doneren
+start-donate = Steunen
 start-send-feedback = Feedback verzenden
 start-sponsors = Sponsors
 start-tutorials = Zelfstudies
@@ -1002,7 +1002,7 @@ catalog-distance-dist-angle-in-xy-plane-angle-xy-angle-276e5c04fe =
     Afstand = __ocs_arg_dist__, hoek in XY Vliegtuig = __ocs_arg_angle_xy__°, hoek van XY Vliegtuig = __ocs_arg_angle_z__°
     Delta X = __ocs_arg_dx__, Delta Y = __ocs_arg_dy__, Delta Z = __ocs_arg_dz__
 catalog-do-you-want-to-save-changes-to-name-38086f7bcb = Wilt u de wijzigingen opslaan in "__ocs_arg_name__"?
-catalog-donate-95345e276f = Doneren
+catalog-donate-95345e276f = Steunen
 catalog-done-e9b450d14b = Klaar
 catalog-double-8158159704 = Dubbel
 catalog-double-click-a-scale-to-rename-it-edit-its-pap-e9fb267199 = Dubbelklik op een schaal om deze te hernoemen. Bewerk hier de verhouding tussen papier- en tekeneenheden. Met Nieuw of Kopiëren voegt u een schaal toe. Wijzigingen worden pas opgeslagen nadat u op Toepassen hebt geklikt.

@@ -61,7 +61,7 @@ area-running-result-area-only =
 
 start-new-drawing = New Drawing
 start-open-file = Open File…
-start-donate = Donate
+start-donate = Support
 start-send-feedback = Send Feedback
 start-sponsors = Sponsors
 start-tutorials = Tutorials
@@ -1044,7 +1044,7 @@ catalog-distance-dist-angle-in-xy-plane-angle-xy-angle-276e5c04fe =
     Distance = __ocs_arg_dist__,  Angle in XY Plane = __ocs_arg_angle_xy__°,  Angle from XY Plane = __ocs_arg_angle_z__°
       Delta X = __ocs_arg_dx__,  Delta Y = __ocs_arg_dy__,  Delta Z = __ocs_arg_dz__
 catalog-do-you-want-to-save-changes-to-name-38086f7bcb = Do you want to save changes to "__ocs_arg_name__"?
-catalog-donate-95345e276f = Donate
+catalog-donate-95345e276f = Support
 catalog-done-e9b450d14b = Done
 catalog-double-8158159704 = Double
 catalog-double-click-a-scale-to-rename-it-edit-its-pap-e9fb267199 = Double-click a scale to rename it; edit its paper : drawing ratio here. New / Copy add a scale. Changes are kept only if you click Apply before closing.

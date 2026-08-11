@@ -42,7 +42,7 @@ command-line-literal-spaces = Wörtliche Leerzeichen: Das Leerzeichen bleibt in 
 
 start-new-drawing = Neue Zeichnung
 start-open-file = Datei öffnen…
-start-donate = Spenden
+start-donate = Unterstützen
 start-send-feedback = Feedback senden
 start-sponsors = Sponsoren
 start-tutorials = Lernprogramme
@@ -1002,7 +1002,7 @@ catalog-distance-dist-angle-in-xy-plane-angle-xy-angle-276e5c04fe =
     Abstand = __ocs_arg_dist__, Winkel in XY Ebene = __ocs_arg_angle_xy__°, Winkel von XY Ebene = __ocs_arg_angle_z__°
     Delta X = __ocs_arg_dx__, Delta Y = __ocs_arg_dy__, Delta Z = __ocs_arg_dz__
 catalog-do-you-want-to-save-changes-to-name-38086f7bcb = Möchten Sie Änderungen an "__ocs_arg_name__" speichern?
-catalog-donate-95345e276f = Spenden
+catalog-donate-95345e276f = Unterstützen
 catalog-done-e9b450d14b = Fertig
 catalog-double-8158159704 = Doppelt
 catalog-double-click-a-scale-to-rename-it-edit-its-pap-e9fb267199 = Zum Umbenennen auf einen Maßstab doppelklicken. Hier wird das Verhältnis zwischen Papier- und Zeichnungseinheiten bearbeitet. Neu oder Kopieren fügt einen Maßstab hinzu. Änderungen werden erst nach Anwenden gespeichert.

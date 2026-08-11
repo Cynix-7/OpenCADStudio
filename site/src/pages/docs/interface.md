@@ -80,14 +80,13 @@ The welcome screen doubles as a hub:
 
 - **New Drawing** / **Open File**
 - **Recent Files** — your recently opened drawings
-- **Tutorials** — links to the official YouTube tutorial playlist
-- **Donate / Sponsors / Feedback** links
+- **Support / Sponsors / Feedback** links
 
-## Maximizing the canvas
+## Resizing the app frame
 
-On the web version, use the **Maximize** button above the app frame to hide the
-page chrome and give the canvas every pixel of your screen. Press it again to
-restore the ads and navigation around the app.
+On the web version, drag the handle under the app frame to set its height.
+Your choice is remembered between visits. The frame spans the full page
+width, with ads staying visible above and below.
 
 ## What's next?
 

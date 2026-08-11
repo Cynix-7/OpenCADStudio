@@ -7,7 +7,7 @@ date: 2026-08-08
 
 DWG is the default file format for AutoCAD drawings, and if someone sends you a `.dwg` file, the "official" way to open it is to pay for AutoCAD — which starts at over $1,800 a year. There are free viewers, but most are limited, require an account, or upload your file to a third-party server.
 
-Here's the good news: you can now open, view, **and edit** DWG files entirely in your browser, for free, with nothing to install and no account required.
+Here's the good news: you can open, view, **and edit** DWG files entirely in your browser, for free, with nothing to install and no account required.
 
 ## What is a DWG file?
 

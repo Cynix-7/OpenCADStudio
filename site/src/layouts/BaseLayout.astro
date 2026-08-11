@@ -7,6 +7,14 @@ interface Props {
 }
 const { title, description } = Astro.props;
 const SITE = "Cadelo";
+const nav = [
+  { href: "/", label: "Home" },
+  { href: "/app/", label: "Open App" },
+  { href: "/docs/", label: "Docs" },
+  { href: "/blog/", label: "Blog" },
+  { href: "/about/", label: "About" },
+  { href: "/contact/", label: "Contact" },
+];
 ---
 
 <!doctype html>
@@ -42,13 +50,16 @@ const SITE = "Cadelo";
         min-height: 100vh;
         display: flex;
         flex-direction: column;
+        -webkit-font-smoothing: antialiased;
       }
       a { color: var(--accent); text-decoration: none; }
       a:hover { text-decoration: underline; }
       header.site {
-        background: var(--chrome);
+        background: rgba(31, 31, 39, 0.85);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
         border-bottom: 1px solid var(--border);
-        padding: 0.75rem 1.5rem;
+        padding: 0.85rem 1.5rem;
         display: flex;
         align-items: center;
         gap: 1.5rem;
@@ -56,16 +67,31 @@ const SITE = "Cadelo";
         top: 0;
         z-index: 50;
       }
-      header.site .logo { font-weight: 700; font-size: 1.1rem; color: var(--text); }
+      header.site .logo {
+        font-weight: 700;
+        font-size: 1.1rem;
+        color: var(--text);
+        letter-spacing: -0.01em;
+      }
       header.site .logo span { color: var(--accent); }
-      header.site nav { display: flex; gap: 1.25rem; margin-left: auto; }
-      header.site nav a { color: var(--muted); font-size: 0.95rem; }
-      header.site nav a:hover { color: var(--text); }
-      main { flex: 1; width: 100%; max-width: 1100px; margin: 0 auto; padding: 2rem 1.5rem; }
+      header.site nav { display: flex; gap: 1.35rem; margin-left: auto; }
+      header.site nav a {
+        color: var(--muted);
+        font-size: 0.95rem;
+        transition: color 0.15s ease;
+      }
+      header.site nav a:hover { color: var(--text); text-decoration: none; }
+      main {
+        flex: 1;
+        width: 100%;
+        max-width: 1100px;
+        margin: 0 auto;
+        padding: 2.5rem 1.5rem;
+      }
       footer.site {
         background: var(--chrome);
         border-top: 1px solid var(--border);
-        padding: 1rem 1.5rem;
+        padding: 1.25rem 1.5rem;
         font-size: 0.85rem;
         color: var(--muted);
         display: flex;
@@ -75,8 +101,8 @@ const SITE = "Cadelo";
       }
       footer.site a { color: var(--muted); }
       footer.site a:hover { color: var(--text); }
-      h1 { font-size: 2.2rem; line-height: 1.2; margin: 0 0 1rem; }
-      h2 { font-size: 1.5rem; margin: 2rem 0 0.75rem; }
+      h1 { font-size: 2.4rem; line-height: 1.15; margin: 0 0 1rem; letter-spacing: -0.02em; }
+      h2 { font-size: 1.5rem; margin: 2rem 0 0.75rem; letter-spacing: -0.01em; }
       h3 { font-size: 1.15rem; margin: 1.5rem 0 0.5rem; }
       p { margin: 0.75rem 0; }
       .muted { color: var(--muted); }
@@ -88,9 +114,10 @@ const SITE = "Cadelo";
         padding: 0.75rem 1.5rem;
         border-radius: 8px;
         text-decoration: none;
-        transition: background 0.15s ease;
+        transition: background 0.15s ease, transform 0.1s ease;
       }
       .btn:hover { background: #33d2ea; text-decoration: none; }
+      .btn:active { transform: translateY(1px); }
       .btn.ghost {
         background: transparent;
         color: var(--text);
@@ -126,14 +153,24 @@ const SITE = "Cadelo";
   </head>
   <body>
     <header class="site">
-      <a class="logo" href="/">Cadelo</a>
+      <a class="logo" href="/">Cadelo<span>.</span></a>
       <nav>
-        <a href="/">Home</a>
-        <a href="/app/">Open App</a>
-        <a href="/docs/">Docs</a>
-        <a href="/blog/">Blog</a>
-        <a href="/about/">About</a>
-        <a href="/contact/">Contact</a>
+        {
+          nav.map((n) => {
+            const here = Astro.url.pathname.replace(/\/$/, "") === n.href.replace(/\/$/, "");
+            return (
+              <a
+                href={n.href}
+                class:list={{ active: here }}
+                style:list={[here && "color:var(--text);"]
+                  .filter(Boolean)
+                  .join(";")}
+              >
+                {n.label}
+              </a>
+            );
+          })
+        }
       </nav>
     </header>
     <main>

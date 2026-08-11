@@ -25,7 +25,7 @@ No account, no email, no signup. Open the app and draw.
 
 Once the app is loaded (cached by your browser), the core drawing and file
 operations work offline. You can open local files, edit them, and save. Ads
-and the online tutorial links need a connection, but your drawings don't.
+need a connection, but your drawings don't.
 
 ## What file formats does it support?
 
@@ -107,7 +107,7 @@ back from WebGPU to WebGL2 when needed.
 
 ## How do I support the project?
 
-There's a **Donate** button in the app (opens Ko-fi) — tips are appreciated
+There's a **Support** button in the app (opens Ko-fi) — tips are appreciated
 and go toward keeping Cadelo free. Sharing the site helps too, and
 contributions to the open-source project are welcome on GitHub.
 

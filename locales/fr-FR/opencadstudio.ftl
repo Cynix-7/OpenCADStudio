@@ -42,7 +42,7 @@ command-line-literal-spaces = Espaces littéraux : l'espace reste dans la ligne 
 
 start-new-drawing = Nouveau dessin
 start-open-file = Ouvrir un fichier…
-start-donate = Faire un don
+start-donate = Soutenir
 start-send-feedback = Envoyer des commentaires
 start-sponsors = Sponsors
 start-tutorials = Tutoriels
@@ -1002,7 +1002,7 @@ catalog-distance-dist-angle-in-xy-plane-angle-xy-angle-276e5c04fe =
     Distance = __ocs_arg_dist__, Angle dans XY Plane = __ocs_arg_angle_xy__°, Angle de XY Plane = __ocs_arg_angle_z__°
     Delta X = __ocs_arg_dx__, Delta Y = __ocs_arg_dy__, Delta Z = __ocs_arg_dz__
 catalog-do-you-want-to-save-changes-to-name-38086f7bcb = Voulez-vous enregistrer les modifications à "__ocs_arg_name__"?
-catalog-donate-95345e276f = Faites un don
+catalog-donate-95345e276f = Soutenir
 catalog-done-e9b450d14b = Terminer
 catalog-double-8158159704 = Double
 catalog-double-click-a-scale-to-rename-it-edit-its-pap-e9fb267199 = Double-cliquez sur une échelle pour la renommer. Modifiez ici le rapport entre les unités papier et dessin. Nouveau ou Copier ajoute une échelle. Les modifications ne sont conservées qu’après avoir cliqué sur Appliquer.

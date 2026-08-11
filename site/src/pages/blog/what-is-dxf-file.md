@@ -7,7 +7,7 @@ date: 2026-08-07
 
 If you've ever ordered a laser-cut part, sent a file to a CNC shop, or shared a drawing with someone who uses different CAD software, you've probably hit the moment: *"Can you send it as DXF?"*
 
-But what actually is a DXF file? Why does everyone ask for it? And how do you open one without buying CAD software? Let's break it down.
+But what actually is a DXF file? Why does everyone ask for it? And how do you open one without buying CAD software? Let's get into it.
 
 ## DXF: the lingua franca of CAD
 

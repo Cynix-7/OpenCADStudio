@@ -100,6 +100,5 @@ drawing into smaller files and use xrefs to combine them.
 ## Still stuck?
 
 - [FAQ](/docs/faq/) — common questions
-- Open the app's **Help** (F1) — it includes the keyboard shortcuts and links
-  to the official tutorial playlist
+- Open the app's **Help** (F1) — it includes the keyboard shortcuts
 - [Contact us](/contact/) — describe what happened and what you tried
