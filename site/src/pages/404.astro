@@ -1,0 +1,22 @@
+---
+// 404 — friendly dead-end with a path back to the app.
+import BaseLayout from "../layouts/BaseLayout.astro";
+---
+
+<BaseLayout
+  title="Page Not Found"
+  description="That page doesn't exist. Head back to Cadelo — free browser CAD for DWG and DXF files."
+>
+  <section style="text-align:center; padding:4rem 0;">
+    <div style="font-size:4rem; font-weight:700; color:var(--accent); margin-bottom:0.5rem;">404</div>
+    <h1 style="font-size:1.75rem;">That page doesn't exist.</h1>
+    <p class="muted" style="max-width:480px; margin:0 auto 2rem;">
+      The link may be outdated, or the page may have moved. Your drawings are
+      still safe — head back and keep drafting.
+    </p>
+    <div style="display:flex; gap:1rem; justify-content:center; flex-wrap:wrap;">
+      <a class="btn" href="/app/">Open Cadelo</a>
+      <a class="btn ghost" href="/docs/">Browse the docs</a>
+    </div>
+  </section>
+</BaseLayout>

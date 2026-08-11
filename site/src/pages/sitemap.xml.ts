@@ -1,32 +1,35 @@
 // Generated sitemap endpoint — uses Astro.site from astro.config.mjs
-// (env-configurable via PUBLIC_SITE_URL).
+// (env-configurable via PUBLIC_SITE_URL). Includes every public page with
+// priority + lastmod so search engines crawl the site in importance order.
 import type { APIRoute } from "astro";
 
+const LAST = "2026-08-11";
+
 const paths = [
-  { path: "/", priority: "1.0" },
-  { path: "/app/", priority: "0.9" },
-  { path: "/docs/", priority: "0.9" },
-  { path: "/docs/getting-started/", priority: "0.8" },
-  { path: "/docs/interface/", priority: "0.7" },
-  { path: "/docs/keyboard-shortcuts/", priority: "0.7" },
-  { path: "/docs/drawing-basics/", priority: "0.8" },
-  { path: "/docs/layers/", priority: "0.7" },
-  { path: "/docs/dimensions/", priority: "0.7" },
-  { path: "/docs/blocks/", priority: "0.7" },
-  { path: "/docs/text/", priority: "0.6" },
-  { path: "/docs/file-formats/", priority: "0.8" },
-  { path: "/docs/saving-exporting/", priority: "0.7" },
-  { path: "/docs/printing/", priority: "0.7" },
-  { path: "/docs/3d-modeling/", priority: "0.7" },
-  { path: "/docs/troubleshooting/", priority: "0.7" },
-  { path: "/docs/faq/", priority: "0.7" },
-  { path: "/blog/", priority: "0.8" },
-  { path: "/blog/open-dwg-online-free/", priority: "0.7" },
-  { path: "/blog/what-is-dxf-file/", priority: "0.7" },
-  { path: "/blog/browser-cad-webassembly/", priority: "0.7" },
-  { path: "/about/", priority: "0.5" },
-  { path: "/privacy/", priority: "0.5" },
-  { path: "/contact/", priority: "0.5" },
+  { path: "/", priority: "1.0", lastmod: LAST },
+  { path: "/app/", priority: "0.9", lastmod: LAST },
+  { path: "/docs/", priority: "0.9", lastmod: LAST },
+  { path: "/docs/getting-started/", priority: "0.8", lastmod: LAST },
+  { path: "/docs/interface/", priority: "0.7", lastmod: LAST },
+  { path: "/docs/keyboard-shortcuts/", priority: "0.7", lastmod: LAST },
+  { path: "/docs/drawing-basics/", priority: "0.8", lastmod: LAST },
+  { path: "/docs/layers/", priority: "0.7", lastmod: LAST },
+  { path: "/docs/dimensions/", priority: "0.7", lastmod: LAST },
+  { path: "/docs/blocks/", priority: "0.7", lastmod: LAST },
+  { path: "/docs/text/", priority: "0.6", lastmod: LAST },
+  { path: "/docs/file-formats/", priority: "0.8", lastmod: LAST },
+  { path: "/docs/saving-exporting/", priority: "0.7", lastmod: LAST },
+  { path: "/docs/printing/", priority: "0.7", lastmod: LAST },
+  { path: "/docs/3d-modeling/", priority: "0.7", lastmod: LAST },
+  { path: "/docs/troubleshooting/", priority: "0.7", lastmod: LAST },
+  { path: "/docs/faq/", priority: "0.7", lastmod: LAST },
+  { path: "/blog/", priority: "0.8", lastmod: LAST },
+  { path: "/blog/open-dwg-online-free/", priority: "0.7", lastmod: "2026-08-08" },
+  { path: "/blog/what-is-dxf-file/", priority: "0.7", lastmod: "2026-08-07" },
+  { path: "/blog/browser-cad-webassembly/", priority: "0.7", lastmod: "2026-08-06" },
+  { path: "/about/", priority: "0.5", lastmod: LAST },
+  { path: "/privacy/", priority: "0.5", lastmod: LAST },
+  { path: "/contact/", priority: "0.5", lastmod: LAST },
 ];
 
 export const GET: APIRoute = ({ site }) => {
@@ -35,6 +38,7 @@ export const GET: APIRoute = ({ site }) => {
     .map(
       (u) => `  <url>
     <loc>${base}${u.path}</loc>
+    <lastmod>${u.lastmod}</lastmod>
     <priority>${u.priority}</priority>
   </url>`
     )

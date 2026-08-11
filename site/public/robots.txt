@@ -1,7 +1,14 @@
 User-agent: *
 Allow: /
-
-# The WASM app is indexable — it's the main product surface.
 Allow: /app/
+Allow: /docs/
+Allow: /blog/
+Allow: /og-image.png
+
+# The raw WASM app page has no readable content; it's served with
+# <meta name="robots" content="noindex"> anyway, but keep crawlers
+# from wasting budget on the 21 MB wasm bundle.
+Disallow: /studio/*.wasm
+Disallow: /studio/worker_pkg/
 
 Sitemap: https://cadelo.app/sitemap.xml

@@ -7,6 +7,9 @@ interface Props {
 }
 const { title, description } = Astro.props;
 const SITE = "Cadelo";
+const DOMAIN = Astro.site?.toString().replace(/\/$/, "") || "https://cadelo.app";
+const url = `${DOMAIN}${Astro.url.pathname}`;
+const ogImage = `${DOMAIN}/og-image.png`;
 const nav = [
   { href: "/", label: "Home" },
   { href: "/app/", label: "Open App" },
@@ -15,6 +18,32 @@ const nav = [
   { href: "/about/", label: "About" },
   { href: "/contact/", label: "Contact" },
 ];
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  name: "Cadelo",
+  applicationCategory: "DesignApplication",
+  operatingSystem: "Web",
+  url: `${DOMAIN}/`,
+  description:
+    "Free browser CAD for DWG and DXF files. Open, edit, and export drawings with no install, no account, and no upload.",
+  offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
+  license: "https://www.gnu.org/licenses/gpl-3.0.html",
+  featureList: [
+    "DWG/DXF read and write (R13-R2018)",
+    "2D drafting: lines, polylines, circles, arcs, dimensions, layers",
+    "3D modeling in the browser",
+    "Export to SVG, PDF, STL, STEP, OBJ, PNG",
+    "Local-first: files never leave your device",
+  ],
+  browserRequirements: "WebGPU or WebGL2",
+  publisher: {
+    "@type": "Organization",
+    name: "Cadelo",
+    url: `${DOMAIN}/`,
+  },
+};
 ---
 
 <!doctype html>
@@ -27,9 +56,19 @@ const nav = [
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:type" content="website" />
+    <meta property="og:url" content={url} />
+    <meta property="og:site_name" content={SITE} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
     <meta name="theme-color" content="#16161c" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <link rel="canonical" href={`${Astro.site}${Astro.url.pathname}`} />
+    <link rel="canonical" href={url} />
+    <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
     <style is:global>
       :root {
         --bg: #16161c;
