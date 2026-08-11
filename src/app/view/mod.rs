@@ -2543,11 +2543,11 @@ pub(super) fn start_page_view<'a>(
 }
 
 fn start_page_content<'a>(
-    videos: &'a [crate::videos::VideoEntry],
-    videos_loading: bool,
-    video_thumbs: &'a std::collections::HashMap<String, iced::widget::image::Handle>,
-    discussions: &'a [crate::discussions::DiscussionEntry],
-    discussions_loading: bool,
+    _videos: &'a [crate::videos::VideoEntry],
+    _videos_loading: bool,
+    _video_thumbs: &'a std::collections::HashMap<String, iced::widget::image::Handle>,
+    _discussions: &'a [crate::discussions::DiscussionEntry],
+    _discussions_loading: bool,
     recents: &'a [std::path::PathBuf],
     thumbs: &'a std::collections::HashMap<
         std::path::PathBuf,
@@ -2555,12 +2555,10 @@ fn start_page_content<'a>(
     >,
     recent_limit: usize,
     recent_limit_input: &'a str,
-    avail_w: f32,
+    _avail_w: f32,
     action_width_out: std::sync::Arc<std::sync::atomic::AtomicU32>,
-    active: super::StartSection,
+    _active: super::StartSection,
 ) -> Element<'a, Message> {
-    let headline = text("Cadelo").size(40).style(start_primary_style);
-
     // Plain outlined button (Open / New / Help / Contribute).
     let outline_btn = |label: String, msg: Message| {
         button(text(label).size(14))
@@ -2653,8 +2651,6 @@ fn start_page_content<'a>(
 
     let content = column![
         Space::new().height(iced::Length::Fixed(28.0)),
-        container(headline).center_x(Fill),
-        Space::new().height(iced::Length::Fixed(22.0)),
         container(primary_row).center_x(Fill),
         Space::new().height(iced::Length::Fixed(10.0)),
         container(secondary_row).center_x(Fill),
@@ -2665,386 +2661,24 @@ fn start_page_content<'a>(
     .width(Fill)
     .height(Fill);
 
-    // Collapse side panels one at a time as width shrinks: Tutorials first,
-    // then Discussions, Supporters, and Recent Documents last.
-    #[derive(Clone, Copy, PartialEq, Eq)]
-    enum StartLayout {
-        AllPanels,
-        WithoutVideos,
-        WithoutVideosAndDiscussions,
-        RecentAndWelcome,
-        Compact,
-    }
+    // Fixed two-column layout: Recent Documents rail + welcome content.
+    // (The Tutorials and Discussions rails were removed from the web build —
+    // they only carried the upstream desktop app's content.)
     let panel_w = 280.0f32;
-    const VIDEO_PANEL_PADDING: f32 = 16.0;
-    const VIDEO_SCROLL_GUTTER: f32 = 14.0;
-    let measured_action_w = f32::from_bits(
-        action_width_out.load(std::sync::atomic::Ordering::Relaxed)
-    );
-    let welcome_wide_min = measured_action_w.max(360.0);
-    let avail = (avail_w - 16.0).max(0.0); // minus the page's l/r padding
-    let panel_widths = [panel_w; 4];
-    let mut panel_visible = [true, true, true, true];
-    let required_width = |visible: &[bool; 4]| {
-        let visible_panels = visible.iter().filter(|&&shown| shown).count();
-        welcome_wide_min
-            + panel_widths
-                .iter()
-                .zip(visible)
-                .filter_map(|(width, shown)| shown.then_some(*width))
-                .sum::<f32>()
-            + visible_panels as f32 * 16.0
-    };
-    // Re-measure after every collapse. There are no independent breakpoints:
-    // the available width and the panels' preferred widths decide the state.
-    for panel in [1usize, 2, 3, 0] {
-        if required_width(&panel_visible) <= avail {
-            break;
-        }
-        panel_visible[panel] = false;
-    }
-    let start_layout = match panel_visible {
-        [true, true, true, true] => StartLayout::AllPanels,
-        [true, false, true, true] => StartLayout::WithoutVideos,
-        [true, false, false, true] => StartLayout::WithoutVideosAndDiscussions,
-        [true, false, false, false] => StartLayout::RecentAndWelcome,
-        _ => StartLayout::Compact,
-    };
 
     let recent = recent_files_panel(
         recents,
         thumbs,
         recent_limit,
         recent_limit_input,
-        match start_layout {
-            StartLayout::AllPanels
-            | StartLayout::WithoutVideos
-            | StartLayout::WithoutVideosAndDiscussions
-            | StartLayout::RecentAndWelcome => iced::Length::Fixed(panel_w),
-            StartLayout::Compact => iced::Length::Fill,
-        },
+        iced::Length::Fixed(panel_w),
     );
     let welcome = container(content).width(Fill).height(Fill);
 
-    // Tutorial-videos rail: the official playlist, fetched at boot (cached on
-    // disk) — thumbnail card + title per video, click opens the browser.
-    let videos_panel: Element<'a, Message> = {
-        // Derive the 16:9 cover box from the actual shared list width so the
-        // whole thumbnail remains visible when that width changes.
-        let thumb_h =
-            (panel_w - VIDEO_PANEL_PADDING * 2.0 - VIDEO_SCROLL_GUTTER) * 9.0 / 16.0;
-        let mut list = column![text(crate::tr!("start-tutorials")).size(15)]
-            .spacing(10)
-            .width(Fill)
-            // Keep the scrollbar off the thumbnails.
-            .padding(iced::Padding {
-                right: VIDEO_SCROLL_GUTTER,
-                ..iced::Padding::ZERO
-            });
-        for v in videos {
-            let mut card = column![].spacing(6).width(Fill);
-            if let Some(handle) = video_thumbs.get(&v.id) {
-                card = card.push(
-                    container(
-                        iced::widget::image(handle.clone())
-                            .width(Fill)
-                            .height(iced::Length::Fixed(thumb_h))
-                            .content_fit(iced::ContentFit::Contain),
-                    )
-                    .width(Fill)
-                    .height(iced::Length::Fixed(thumb_h))
-                    .style(|theme: &Theme| container::Style {
-                        border: Border {
-                            color: theme.palette().background.neutral.color,
-                            width: 1.0,
-                            radius: 6.0.into(),
-                        },
-                        ..Default::default()
-                    })
-                    .clip(true),
-                );
-            }
-            card = card.push(text(v.title.clone()).size(12).style(start_muted_style));
-            list = list.push(
-                mouse_area(card)
-                    .interaction(iced::mouse::Interaction::Pointer)
-                    .on_press(Message::OpenUrl(crate::videos::watch_url(&v.id))),
-            );
-        }
-        if videos.is_empty() {
-            let note = if videos_loading {
-                crate::tr!("start-loading-videos")
-            } else {
-                crate::tr!("start-videos-online")
-            };
-            list = list.push(text(note).size(12).style(start_muted_style));
-        }
-        let playlist_btn = mouse_area(
-            container(text(crate::tr!("start-open-playlist")).size(12))
-            .padding([6, 10])
-            .width(Fill)
-            .center_x(Fill)
-            .style(|theme: &Theme| {
-                let pair = theme.palette().danger.base;
-                container::Style {
-                background: Some(Background::Color(pair.color)),
-                border: Border {
-                    color: Color::TRANSPARENT,
-                    width: 0.0,
-                    radius: 6.0.into(),
-                },
-                text_color: Some(pair.text),
-                ..Default::default()
-                }
-            }),
-        )
-        .interaction(iced::mouse::Interaction::Pointer)
-        .on_press(Message::OpenUrl(crate::videos::PLAYLIST_URL.to_string()));
-        container(column![
-            iced::widget::scrollable(list).height(Fill),
-            Space::new().height(iced::Length::Fixed(12.0)),
-            playlist_btn,
-        ])
-        .width(match start_layout {
-            StartLayout::AllPanels => iced::Length::Fixed(panel_w),
-            StartLayout::WithoutVideos
-            | StartLayout::WithoutVideosAndDiscussions
-            | StartLayout::RecentAndWelcome
-            | StartLayout::Compact => iced::Length::Fill,
-        })
-        .height(Fill)
-        .padding(VIDEO_PANEL_PADDING)
-        .style(|theme: &Theme| {
-            let palette = theme.palette();
-            container::Style {
-            background: Some(Background::Color(palette.background.weak.color)),
-            border: Border {
-                color: palette.background.neutral.color,
-                width: 1.0,
-                radius: 8.0.into(),
-            },
-            ..Default::default()
-            }
-        })
-        .into()
-    };
-
-    // GitHub Discussions rail. Native builds refresh from GitHub's public feed;
-    // web builds read the CI-generated snapshot. Both sources mark pinned
-    // discussions and sort them before the rest of the list.
-    let discussions_panel: Element<'a, Message> = {
-        let mut list = column![text(crate::tr!("start-discussions")).size(15)]
-            .spacing(8)
-            .width(Fill);
-        for discussion in discussions {
-            let mut meta = iced::widget::row![
-                text(format!("#{}", discussion.number))
-                    .size(10)
-                    .style(start_muted_style),
-            ]
-            .spacing(6)
-            .align_y(iced::Center);
-            if discussion.pinned {
-                meta = meta.push(
-                    text(crate::tr!("start-pinned"))
-                        .size(10)
-                        .style(start_primary_style),
-                );
-            }
-            if !discussion.author.is_empty() {
-                meta = meta.push(
-                    text(format!("@{}", discussion.author))
-                        .size(10)
-                        .style(start_muted_style),
-                );
-            }
-            let card = container(
-                column![
-                    text(discussion.title.clone()).size(12),
-                    meta,
-                ]
-                .spacing(4),
-            )
-            .padding([8, 10])
-            .width(Fill)
-            .style(|theme: &Theme| {
-                let palette = theme.palette();
-                container::Style {
-                    background: Some(Background::Color(
-                        palette.background.base.color.scale_alpha(0.42),
-                    )),
-                    border: Border {
-                        color: palette.background.neutral.color,
-                        width: 1.0,
-                        radius: 6.0.into(),
-                    },
-                    ..Default::default()
-                }
-            });
-            list = list.push(
-                mouse_area(card)
-                    .interaction(iced::mouse::Interaction::Pointer)
-                    .on_press(Message::OpenUrl(discussion.url.clone())),
-            );
-        }
-        if discussions.is_empty() {
-            let note = if discussions_loading {
-                crate::tr!("start-loading-discussions")
-            } else {
-                crate::tr!("start-discussions-online")
-            };
-            list = list.push(text(note).size(12).style(start_muted_style));
-        }
-        let open_btn = mouse_area(
-            container(text(crate::tr!("start-open-discussions")).size(12))
-                .padding([6, 10])
-                .width(Fill)
-                .center_x(Fill)
-                .style(|theme: &Theme| {
-                    let pair = theme.palette().primary.base;
-                    container::Style {
-                        background: Some(Background::Color(pair.color)),
-                        border: Border {
-                            color: Color::TRANSPARENT,
-                            width: 0.0,
-                            radius: 6.0.into(),
-                        },
-                        text_color: Some(pair.text),
-                        ..Default::default()
-                    }
-                }),
-        )
-        .interaction(iced::mouse::Interaction::Pointer)
-        .on_press(Message::OpenUrl(
-            crate::discussions::DISCUSSIONS_URL.to_string(),
-        ));
-        container(column![
-            iced::widget::scrollable(list).height(Fill),
-            Space::new().height(iced::Length::Fixed(12.0)),
-            open_btn,
-        ])
-        .width(match start_layout {
-            StartLayout::AllPanels | StartLayout::WithoutVideos => {
-                iced::Length::Fixed(panel_w)
-            }
-            StartLayout::WithoutVideosAndDiscussions
-            | StartLayout::RecentAndWelcome
-            | StartLayout::Compact => iced::Length::Fill,
-        })
-        .height(Fill)
-        .padding(16)
-        .style(|theme: &Theme| {
-            let palette = theme.palette();
-            container::Style {
-                background: Some(Background::Color(palette.background.weak.color)),
-                border: Border {
-                    color: palette.background.neutral.color,
-                    width: 1.0,
-                    radius: 8.0.into(),
-                },
-                ..Default::default()
-            }
-        })
-        .into()
-    };
-
-    let body: Element<'a, Message> = match start_layout {
-        StartLayout::AllPanels => iced::widget::row![
-            recent,
-            videos_panel,
-            welcome,
-            discussions_panel,
-        ]
+    let body: Element<'a, Message> = iced::widget::row![recent, welcome]
         .spacing(16)
         .height(Fill)
-        .into(),
-        StartLayout::WithoutVideos => {
-            iced::widget::row![recent, welcome, discussions_panel]
-                .spacing(16)
-                .height(Fill)
-                .into()
-        }
-        StartLayout::WithoutVideosAndDiscussions => {
-            iced::widget::row![recent, welcome]
-                .spacing(16)
-                .height(Fill)
-                .into()
-        }
-        StartLayout::RecentAndWelcome => iced::widget::row![recent, welcome]
-            .spacing(16)
-            .height(Fill)
-            .into(),
-        StartLayout::Compact => {
-            let tab_btn = |label: String, section: super::StartSection| {
-                let is_active = active == section;
-                button(text(label).size(14))
-                    .on_press(Message::StartSectionSelect(section))
-                    .padding([8, 18])
-                    .style(move |theme: &Theme, status| {
-                        let palette = theme.palette();
-                        let pair = match (is_active, status) {
-                            (true, _) => Some(palette.primary.weak),
-                            (false, button::Status::Hovered) => {
-                                Some(palette.background.strong)
-                            }
-                            _ => None,
-                        };
-                        button::Style {
-                        background: pair.map(|p| Background::Color(p.color)),
-                        text_color: pair
-                            .map(|p| p.text)
-                            .unwrap_or(palette.background.base.text.scale_alpha(0.68)),
-                        border: Border {
-                            color: if is_active {
-                                palette.primary.base.color
-                            } else {
-                                Color::TRANSPARENT
-                            },
-                            width: if is_active { 1.0 } else { 0.0 },
-                            radius: 6.0.into(),
-                        },
-                        ..Default::default()
-                        }
-                    })
-            };
-            let tab_bar = Row::with_children(vec![
-                tab_btn(crate::tr!("start-recent-files"), super::StartSection::Recent).into(),
-                tab_btn(crate::tr!("start-videos"), super::StartSection::Videos).into(),
-                tab_btn(crate::tr!("start-welcome"), super::StartSection::Welcome).into(),
-                tab_btn(crate::tr!("start-discussions"), super::StartSection::Discussions).into(),
-            ])
-            .spacing(6.0)
-            .align_y(iced::Center)
-            .wrap()
-            .vertical_spacing(0.0);
-            let section_body: Element<'a, Message> = match active {
-                super::StartSection::Recent => container(recent)
-                    .width(Fill)
-                    .height(Fill)
-                    .center_x(Fill)
-                    .into(),
-                super::StartSection::Videos => container(videos_panel)
-                    .width(Fill)
-                    .height(Fill)
-                    .center_x(Fill)
-                    .into(),
-                super::StartSection::Welcome => welcome.into(),
-                super::StartSection::Discussions => container(discussions_panel)
-                    .width(Fill)
-                    .height(Fill)
-                    .center_x(Fill)
-                    .into(),
-            };
-            column![
-                container(tab_bar).center_x(Fill),
-                Space::new().height(iced::Length::Fixed(12.0)),
-                section_body,
-            ]
-            .width(Fill)
-            .height(Fill)
-            .into()
-        }
-    };
+        .into();
 
     container(body)
     .style(|theme: &Theme| container::Style {
