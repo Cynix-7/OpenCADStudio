@@ -2,7 +2,7 @@ User-agent: *
 Allow: /
 Allow: /app/
 Allow: /docs/
-Allow: /blog/
+Allow: /tutorials/
 Allow: /og-image.png
 
 # The raw WASM app page has no readable content; it's served with

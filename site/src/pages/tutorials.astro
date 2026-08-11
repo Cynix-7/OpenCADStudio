@@ -1,0 +1,77 @@
+---
+// /tutorials/ — video tutorial cards from the upstream OpenCADStudio
+// YouTube channel. Thumbnails load from YouTube's image CDN (CSP allows
+// https: images). Cards link out to the videos with playlist context.
+// This page will host Cadelo's own tutorials once the series launches.
+import BaseLayout from "../layouts/BaseLayout.astro";
+import AdSlot from "../components/AdSlot.astro";
+
+const PLAYLIST_ID = "PLZq_TEkIFh9bAnoOX1HiCAunm3anZDBOl";
+
+const videos = [
+  { id: "QFDMSRNrZOU", title: "Create 2D Chair DWG Drawing" },
+  { id: "bHwKKOdBtCQ", title: "Object Snap Explained" },
+  { id: "JRlmIInZRiQ", title: "How to Install – Free DWG Authoring Tool" },
+  { id: "4_glyJFo0qI", title: "As a Free DWG File Viewer, No Login Needed" },
+  { id: "uN9zxM7p_fc", title: "Create a 2D DWG Drawing & Export to PDF" },
+].map((v) => ({
+  ...v,
+  url: `https://www.youtube.com/watch?v=${v.id}&list=${PLAYLIST_ID}`,
+  thumb: `https://i.ytimg.com/vi/${v.id}/hqdefault.jpg`,
+}));
+---
+
+<BaseLayout
+  title="Tutorials"
+  description="Video tutorials for Cadelo and OpenCADStudio — DWG drawing, object snap, file formats, and more, straight from the official channel."
+>
+  <h1>Tutorials</h1>
+  <p class="muted" style="font-size:1.05rem; max-width:640px;">
+    Walkthroughs for drawing, editing, and exporting DWG/DXF files. These come
+    from the OpenCADStudio channel — the project Cadelo is built on. Our own
+    tutorial series is on the way.
+  </p>
+
+  <div style="display:grid; grid-template-columns:repeat(auto-fill,minmax(280px,1fr)); gap:1.25rem; margin-top:1.5rem;">
+    {
+      videos.map((v) => (
+        <a
+          href={v.url}
+          target="_blank"
+          rel="noopener"
+          style="text-decoration:none; color:inherit; background:var(--chrome); border:1px solid var(--border); border-radius:12px; overflow:hidden; display:flex; flex-direction:column; transition:border-color 0.15s ease, transform 0.1s ease;"
+        >
+          <div style="aspect-ratio:16/9; background:#101015; overflow:hidden;">
+            <img
+              src={v.thumb}
+              alt={`${v.title} video thumbnail`}
+              loading="lazy"
+              width="480"
+              height="270"
+              style="width:100%; height:100%; object-fit:cover; display:block; border-radius:0;"
+            />
+          </div>
+          <div style="padding:1rem;">
+            <h3 style="margin:0; font-size:1rem; color:var(--text); line-height:1.35;">{v.title}</h3>
+            <p class="muted" style="margin:0.5rem 0 0; font-size:0.85rem; display:flex; align-items:center; gap:0.35rem;">
+              <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="5" width="20" height="14" rx="3"/><path d="M10 9l6 3-6 3z"/></svg>
+              Watch on YouTube
+            </p>
+          </div>
+        </a>
+      ))
+    }
+  </div>
+
+  <AdSlot format="inarticle" />
+
+  <section style="margin-top:2rem; background:var(--chrome); border:1px solid var(--border); border-radius:12px; padding:1.5rem; display:flex; align-items:center; justify-content:space-between; gap:1rem; flex-wrap:wrap;">
+    <div>
+      <h3 style="margin:0 0 0.25rem;">Prefer reading?</h3>
+      <p class="muted" style="margin:0; font-size:0.95rem;">
+        The full Cadelo documentation covers every tool and command in writing.
+      </p>
+    </div>
+    <a class="btn ghost" href="/docs/getting-started/">Browse the docs</a>
+  </section>
+</BaseLayout>
