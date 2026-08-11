@@ -1,18 +1,17 @@
 ---
 // /app/ — host page: ad chrome + iframe to the isolated WASM app at /studio/.
-// The app runs in an iframe so ads can never overlap the canvas, and COOP/COEP
-// isolation applies only to /studio/* (ad scripts on this page stay compatible).
-// Deliberately minimal: no toolbar/subtitle — the app frame spans the full
-// page width so the canvas gets every pixel with ads still visible above and
-// below (they are the revenue, never hidden). A drag handle under the frame
-// lets the user resize its height; the choice persists in localStorage.
+// The CAD app is desktop-only (mouse/keyboard precision work; no touch input
+// support). The iframe's src is set only when a fine-pointer device is
+// confirmed, so phones/tablets never download the 21 MB wasm — they see a
+// desktop-only notice instead. Ads stay visible in both states.
+// COOP/COEP isolation applies only to /studio/* (ad scripts stay compatible).
 import BaseLayout from "../layouts/BaseLayout.astro";
 import AdSlot from "../components/AdSlot.astro";
 ---
 
 <BaseLayout
   title="Cadelo — Free Browser CAD App"
-  description="Open, edit, and export DWG and DXF files free in your browser. No install, no signup, GPU-accelerated CAD app."
+  description="Open, edit, and export DWG and DXF files free in your browser. No install, no signup, GPU-accelerated CAD app. Best on desktop."
 >
   <style is:global>
     /* Break out of BaseLayout's 1100px main column so the canvas spans
@@ -73,72 +72,129 @@ import AdSlot from "../components/AdSlot.astro";
       cursor: ns-resize !important;
       user-select: none !important;
     }
+    /* Desktop-only notice shown to touch/coarse-pointer devices. */
+    .desktop-notice {
+      background: var(--chrome);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 3rem 1.5rem;
+      text-align: center;
+      margin: 1.5rem 0;
+      display: none;
+    }
+    [data-cadelo-app="unsupported"] .desktop-notice { display: block; }
+    [data-cadelo-app="unsupported"] .app-frame,
+    [data-cadelo-app="unsupported"] .app-resize { display: none; }
   </style>
 
-  <div class="app-stage">
+  <div class="app-stage" id="app-stage">
     <AdSlot format="leaderboard" />
+
     <iframe
       class="app-frame"
       id="app-frame"
-      src="/studio/"
       title="Cadelo CAD app"
       allow="clipboard-write"
       loading="eager"
     ></iframe>
+
     <div class="app-resize" id="app-resize" title="Drag to resize the app" role="separator" aria-orientation="horizontal">
       <span class="grip"></span>
     </div>
+
+    <div class="desktop-notice" role="status">
+      <div style="font-size:2.25rem; margin-bottom:0.75rem;">🖥️</div>
+      <h2 style="margin:0 0 0.5rem;">Cadelo is a desktop app</h2>
+      <p class="muted" style="max-width:440px; margin:0 auto 1.5rem;">
+        Drawing with precision needs a mouse and keyboard. Cadelo runs best in a
+        desktop browser — open it on a laptop or desktop computer to start drafting.
+      </p>
+      <a class="btn ghost" href="/docs/getting-started/">Read the getting-started guide</a>
+    </div>
+
     <AdSlot format="leaderboard" />
   </div>
 
   <script>
-    // Drag-to-resize: pointer events (works for mouse + touch), clamps to a
-    // sane minimum, persists the chosen height so reloads keep the layout.
+    // Device gate: the CAD app needs a precise pointer (mouse / trackpad).
+    // Coarse-pointer devices (phones, tablets) get the desktop-only notice
+    // and never load the 21 MB wasm. Surface-style laptops report a fine
+    // primary pointer, so they load the app normally.
+    const stage = document.getElementById("app-stage");
     const frame = document.getElementById("app-frame");
+
+    const finePointer = (() => {
+      try {
+        const mq = window.matchMedia("(pointer: fine)");
+        if (mq.matches) return true;
+        // Very old browsers without the media query: fall back to touch
+        // capability sniffing for the static demo/welcome surfaces.
+        if (typeof mq.matches === "undefined") {
+          return navigator.maxTouchPoints === 0;
+        }
+        return false;
+      } catch (_) {
+        return true;
+      }
+    })();
+
+    if (finePointer) {
+      // Desktop: boot the app.
+      stage.dataset.cadeloApp = "supported";
+      frame.src = "/studio/";
+    } else {
+      // Touch device: show the notice, never download the wasm.
+      stage.dataset.cadeloApp = "unsupported";
+    }
+
+    // Drag-to-resize (desktop only): pointer events, clamps to a sane
+    // minimum, persists the chosen height so reloads keep the layout.
     const handle = document.getElementById("app-resize");
     const MIN_H = 400;
 
-    const saved = (() => {
-      try {
-        return parseInt(localStorage.getItem("cadelo-frame-h") || "", 10);
-      } catch (_) {
-        return NaN;
+    if (finePointer && handle && frame) {
+      const saved = (() => {
+        try {
+          return parseInt(localStorage.getItem("cadelo-frame-h") || "", 10);
+        } catch (_) {
+          return NaN;
+        }
+      })();
+      if (Number.isFinite(saved) && saved >= MIN_H) {
+        frame.style.height = `${saved}px`;
       }
-    })();
-    if (Number.isFinite(saved) && saved >= MIN_H) {
-      frame.style.height = `${saved}px`;
+
+      let dragging = false;
+      let startY = 0;
+      let startH = 0;
+
+      handle.addEventListener("pointerdown", (e) => {
+        dragging = true;
+        startY = e.clientY;
+        startH = frame.getBoundingClientRect().height;
+        handle.setPointerCapture(e.pointerId);
+        document.body.classList.add("resizing");
+        e.preventDefault();
+      });
+
+      handle.addEventListener("pointermove", (e) => {
+        if (!dragging) return;
+        const h = Math.max(MIN_H, startH + (e.clientY - startY));
+        frame.style.height = `${h}px`;
+      });
+
+      const stop = () => {
+        if (!dragging) return;
+        dragging = false;
+        document.body.classList.remove("resizing");
+        try {
+          localStorage.setItem("cadelo-frame-h", String(Math.round(frame.getBoundingClientRect().height)));
+        } catch (_) {
+          // storage unavailable (private mode etc.) — resize still works for the session
+        }
+      };
+      handle.addEventListener("pointerup", stop);
+      handle.addEventListener("pointercancel", stop);
     }
-
-    let dragging = false;
-    let startY = 0;
-    let startH = 0;
-
-    handle.addEventListener("pointerdown", (e) => {
-      dragging = true;
-      startY = e.clientY;
-      startH = frame.getBoundingClientRect().height;
-      handle.setPointerCapture(e.pointerId);
-      document.body.classList.add("resizing");
-      e.preventDefault();
-    });
-
-    handle.addEventListener("pointermove", (e) => {
-      if (!dragging) return;
-      const h = Math.max(MIN_H, startH + (e.clientY - startY));
-      frame.style.height = `${h}px`;
-    });
-
-    const stop = () => {
-      if (!dragging) return;
-      dragging = false;
-      document.body.classList.remove("resizing");
-      try {
-        localStorage.setItem("cadelo-frame-h", String(Math.round(frame.getBoundingClientRect().height)));
-      } catch (_) {
-        // storage unavailable (private mode etc.) — resize still works for the session
-      }
-    };
-    handle.addEventListener("pointerup", stop);
-    handle.addEventListener("pointercancel", stop);
   </script>
 </BaseLayout>
