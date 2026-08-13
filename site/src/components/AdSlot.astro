@@ -33,24 +33,11 @@ const minHeight = format === "leaderboard" ? "90px" : format === "inarticle" ? "
 </div>
 
 <script is:inline>
-  // Load AdSense once when slots are enabled, then push each ad unit to
-  // render it. The standard AdSense pattern is: load adsbygoogle.js once,
-  // then call (adsbygoogle = window.adsbygoogle || []).push({}) once per
-  // <ins class="adsbygoogle"> element — without the push, no ad renders.
+  // Push each enabled ad unit to render it. The site-wide adsbygoogle.js is
+  // already loaded by BaseLayout.astro; this block only calls push().
   (() => {
     const slots = document.querySelectorAll(".ad-slot[data-ad-enabled='true'] .adsbygoogle");
     if (slots.length === 0) return;
-    const client = slots[0].getAttribute("data-ad-client");
-    if (!client) return;
-    if (!window.__OCS_ADS_LOADED__) {
-      window.__OCS_ADS_LOADED__ = true;
-      const s = document.createElement("script");
-      s.async = true;
-      // NOTE: no crossOrigin attribute — AdSense's adsbygoogle.js is not
-      // served with CORS headers; setting crossOrigin would block it.
-      s.src = `https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${client}`;
-      document.head.appendChild(s);
-    }
     for (const slot of slots) {
       try {
         (window.adsbygoogle = window.adsbygoogle || []).push({});
